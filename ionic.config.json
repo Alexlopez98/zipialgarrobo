@@ -1,0 +1,7 @@
+{
+  "name": "zipialgarrobo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
