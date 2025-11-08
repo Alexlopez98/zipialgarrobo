@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Error 404</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="error-container">
+    <ng-lottie
+      [options]="{
+        path: 'assets/animations/error404.json',
+        loop: true,
+        autoplay: true
+      }"
+      width="250"
+      height="250">
+    </ng-lottie>
+
+    <h2>¡Ups! Página no encontrada 😔</h2>
+    <p>Parece que la dirección que buscas no existe.</p>
+
+    <ion-button expand="block" color="primary" (click)="volverInicio()">
+      Volver al inicio
+    </ion-button>
+  </div>
+</ion-content>

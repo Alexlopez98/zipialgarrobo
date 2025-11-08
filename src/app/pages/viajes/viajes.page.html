@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Viajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Historial de viajes 🚗</h2>
+
+  <ion-card *ngFor="let viaje of viajes">
+    <ion-card-header>
+      <ion-card-title>{{ viaje.destino }}</ion-card-title>
+      <ion-card-subtitle>Conductor: {{ viaje.conductor }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>Duración: {{ viaje.duracion }}</p>
+      <p>Costo: {{ viaje.costo }}</p>
+
+      <p class="pregunta">¿Cómo calificarías este viaje?</p>
+
+      <div class="calificacion-box">
+        <div class="stars">
+          <ion-icon
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            [name]="star <= viaje.calificacion ? 'star' : 'star-outline'"
+            [class.active]="star <= viaje.calificacion"
+            (click)="calificar(viaje, star)">
+          </ion-icon>
+        </div>
+
+        <div *ngIf="viaje.calificado" class="resultado">
+          Tu calificación: ⭐ {{ viaje.calificacion }}/5
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="rating-animation" *ngIf="mostrarAnimacion">
+    <ng-lottie
+      [options]="animacionEstrellas"
+      width="200"
+      height="200">
+      </ng-lottie>
+    <h3>¡Gracias por tu calificación! 🌟</h3>
+  </div>
+
+</ion-content>

@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Uber Algarrobo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="welcome-container">
+    <h2>¡Hola, {{ usuario }}!</h2>
+    <p>¿A dónde quieres ir hoy?</p>
+  </div>
+
+  <div class="map-container">
+    <div class="fake-map">
+      <p>🗺️ Mapa de Algarrobo (simulación)</p>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <ion-button expand="block" color="success" (click)="pedirViaje()">🚗 Pedir viaje</ion-button>
+    <ion-button expand="block" color="primary" (click)="goToViajes()">📜 Mis viajes</ion-button>
+    <ion-button expand="block" color="medium" (click)="goToPerfil()">👤 Perfil</ion-button>
+  </div>
+
+  <!-- Overlay de carga -->
+  <app-loader-overlay [visible]="cargando" [message]="mensajeCarga"></app-loader-overlay>
+
+  <!-- Animación de viaje encontrado -->
+  <div class="success" *ngIf="mostrarAnimacion">
+    <ng-lottie
+      [options]="{
+        path: 'assets/animations/success.json',
+        loop: false,
+        autoplay: true
+      }"
+      width="200"
+      height="200">
+    </ng-lottie>
+    <h3>Conductor encontrado 🚗</h3>
+  </div>
+</ion-content>
