@@ -1,17 +1,9 @@
-.login-container {
-  text-align: center;
-  margin-top: 15%;
+.description {
+  text-align: center; 
+  font-size: 1.1em;
+  color: #838a8d;
+  margin: 0;
 }
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-p {
-  color: #666;
-}
-
 .error {
   color: red;
   text-align: center;
@@ -22,4 +14,10 @@ ion-note {
   display: block;
   margin-top: 4px;
   font-size: 0.9rem;
+  color: rgb(255, 0, 0);
+}
+
+.letras-imput::placeholder {
+  color: #000000;
+  opacity: 0.7; 
 }

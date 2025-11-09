@@ -1,12 +1,9 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Inicio de Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Zipi Algarrobo</h2>
-  <p>Conéctate y viaja seguro por Algarrobo 🌊</p>
+  <div class="login-header">
+    <img src="assets/icon/logo.png" alt="Zipi Algarrobo Logo" class="app-logo"> 
+    <p class="description">Conecta conductores y pasajeros en tu comuna</p>
+  </div>
 
   <form (ngSubmit)="login()" #loginForm="ngForm">
     <!-- Campo usuario -->
@@ -20,7 +17,7 @@
         pattern="^[a-zA-Z]+$"
         placeholder="Solo letras (a-z)"
         #usuarioInput="ngModel"
-        style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"
+        class="letras-imput" style="background-color:#94b7c9; width:100%; padding:8px; border-radius:6px; border:1px solid #94b7c9;"
       >
       <ion-note color="danger" *ngIf="usuarioInput.invalid && usuarioInput.touched">
         El usuario debe contener solo letras.
@@ -38,7 +35,7 @@
         pattern="^[0-9]{4}$"
         placeholder="4 dígitos numéricos"
         #passwordInput="ngModel"
-        style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"
+        class="letras-imput" style="background-color:#94b7c9; width:100%; padding:8px; border-radius:6px; border:1px solid #94b7c9;"
       >
       <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
         La contraseña debe tener 4 números.
@@ -50,8 +47,8 @@
       <button
         type="submit"
         [disabled]="loginForm.invalid"
-        style="background-color:#3880ff; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer;">
-        Iniciar Sesión
+        style="background-color:#4499c0; color:white; padding:10px 60px; border:none; border-radius:20px; cursor:pointer;">
+        Ingresar
       </button>
     </div>
   </form>
