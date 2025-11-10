@@ -1,3 +1,46 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu #menu contentId="main-content" type="overlay" side="end">
+    <ion-header>
+      <ion-toolbar style="background-color: blanchedalmond;">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        
+        <ion-item button routerLink="/home" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="home-outline" slot="start"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-item>
+
+        <ion-item button routerLink="/perfil" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label>Perfil</ion-label>
+        </ion-item>
+
+        <ion-item button routerLink="/viajes" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="car-outline" slot="start"></ion-icon>
+          <ion-label>Mis Viajes</ion-label>
+        </ion-item>
+
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          <ion-label>Cerrar sesión</ion-label>
+        </ion-item>
+        
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  <div class="overlay" *ngIf="showLogoutOverlay">
+
+    <div class="overlay-content">
+      <ng-lottie [options]="logoutAnimation" width="220" height="220"></ng-lottie>
+      <h3>Cerrando sesión...</h3>
+    </div>
+  </div>
+
 </ion-app>

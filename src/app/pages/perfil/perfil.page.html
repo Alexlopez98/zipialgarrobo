@@ -1,91 +1,80 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Perfil</ion-title>
+<ion-content class="ion-padding perfil-page">
+  
+  <ion-toolbar color="light" class="toolbar-custom">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/home" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
 
-<ion-content class="ion-padding">
   <div class="perfil-container">
     <ion-avatar class="avatar">
       <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" />
     </ion-avatar>
 
     <h2>{{ usuario || 'Usuario sin nombre' }}</h2>
-    <p>Perfil de usuario en Uber Algarrobo</p>
 
-    <ion-card>
+    <ion-card class="perfil-card">
       <ion-card-header>
-        <ion-card-title>Información del Usuario</ion-card-title>
+        <ion-card-title>Información de perfil del usuario</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <ion-item>
-          <ion-label position="stacked">Usuario</ion-label>
-          <ion-input [(ngModel)]="usuario" disabled></ion-input>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="usuario" placeholder="Alexander"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Contraseña</ion-label>
-          <ion-input [(ngModel)]="password" type="password" disabled></ion-input>
+          <ion-input [(ngModel)]="password" type="password" placeholder="••••"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="stacked">Correo</ion-label>
-          <ion-input [(ngModel)]="correo" placeholder="Ingresa tu correo"></ion-input>
+          <ion-label position="stacked">Correo electrónico</ion-label>
+          <ion-input [(ngModel)]="correo" placeholder="Alexander1234@gmail.com"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Teléfono</ion-label>
-          <ion-input [(ngModel)]="telefono" placeholder="Ej: +56 9 8765 4321"></ion-input>
+          <ion-input [(ngModel)]="telefono" placeholder="Ej: +56 9 8744 5211"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Ubicación</ion-label>
           <ion-input [(ngModel)]="ubicacion" placeholder="Ej: Algarrobo, Chile"></ion-input>
         </ion-item>
-
-        <ion-button expand="block" color="success" (click)="guardarCambios()">
-          <ion-icon slot="start" name="save-outline"></ion-icon>
-          Guardar cambios
-        </ion-button>
       </ion-card-content>
     </ion-card>
 
-    <div class="botones">
-      <ion-button expand="block" color="medium" fill="outline" (click)="volver()">
-        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
-        Volver
-      </ion-button>
+    <ion-button expand="block" class="btn-guardar" (click)="guardarCambios()">
+      GUARDAR CAMBIOS
+    </ion-button>
 
-      <ion-button expand="block" color="danger" (click)="cerrarSesion()">
-        <ion-icon slot="start" name="log-out-outline"></ion-icon>
-        Cerrar sesión
-      </ion-button>
-    </div>
+    <ion-button expand="block" class="btn-cerrar" (click)="cerrarSesion()">
+      CERRAR SESIÓN
+    </ion-button>
   </div>
+  
+</ion-content>
 
-  <!-- Overlay de cierre de sesión -->
-  <div class="overlay" *ngIf="showLogoutOverlay">
-    <div class="overlay-content">
-      <ng-lottie
-        [options]="{
-          path: 'assets/animations/exit.json',
-          loop: false,
-          autoplay: true
-        }"
-        width="220"
-        height="220">
-      </ng-lottie>
-      <h3>Cerrando sesión...</h3>
-    </div>
+<div class="overlay" *ngIf="showLogoutOverlay">
+  <div class="overlay-content">
+    <ng-lottie
+      [options]="{
+        path: 'assets/animations/exit.json',
+        loop: false,
+        autoplay: true
+      }"
+      width="220"
+      height="220">
+    </ng-lottie>
+    <h3>Cerrando sesión...</h3>
   </div>
+</div>
 
-  <!-- Overlay de guardado -->
-  <app-loader-overlay [visible]="showLoader" [message]="'Guardando tus cambios...'"></app-loader-overlay>
-  <!-- Mensaje de éxito -->
+<app-loader-overlay [visible]="showLoader" [message]="'Guardando tus cambios...'"></app-loader-overlay>
+
 <div class="success-message" *ngIf="showSuccessMessage">
   <ion-icon name="checkmark-circle-outline"></ion-icon>
   <p>Cambios guardados con éxito ✅</p>
 </div>
-
-</ion-content>

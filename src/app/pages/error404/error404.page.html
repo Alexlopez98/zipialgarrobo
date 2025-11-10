@@ -1,10 +1,4 @@
-<ion-header>
-  <ion-toolbar color="danger">
-    <ion-title>Error 404</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
+<ion-content class="error-page ion-padding">
   <div class="error-container">
     <ng-lottie
       [options]="{
@@ -16,11 +10,12 @@
       height="250">
     </ng-lottie>
 
-    <h2>¡Ups! Página no encontrada 😔</h2>
-    <p>Parece que la dirección que buscas no existe.</p>
+    <h2>¡UPS!<br><strong>Página no encontrada</strong></h2>
+    <p>Parece que la dirección que buscas no existe</p>
 
-    <ion-button expand="block" color="primary" (click)="volverInicio()">
-      Volver al inicio
-    </ion-button>
+    <button class="btn-volver" (click)="volverInicio()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      VOLVER AL INICIO
+    </button>
   </div>
 </ion-content>

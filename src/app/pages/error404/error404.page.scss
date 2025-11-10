@@ -1,42 +1,82 @@
-.error-container {
+ion-content.error-page {
+  --background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin-top: 15%;
+}
+
+/* Contenedor principal */
+.error-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 25px;
+  min-height: 100vh;
 }
 
-h2 {
-  font-size: 22px;
-  margin-top: 10px;
-  color: #d9534f;
-  animation: fadeInDown 0.8s ease;
+/* Animación */
+ng-lottie {
+  margin-bottom: 10px;
 }
 
-p {
+/* Títulos */
+.error-container h2 {
+  font-size: 1.5rem;
+  color: #000;
+  margin: 10px 0 5px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.error-container p {
   color: #666;
-  margin: 10px 0 20px;
-  animation: fadeInUp 0.8s ease;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
 }
 
-ion-button {
-  width: 70%;
-  margin: 0 auto;
-  animation: popIn 0.8s ease;
+/* Botón personalizado */
+.btn-volver {
+  background-color: #29b8b5;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+.btn-volver ion-icon {
+  font-size: 18px;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Hover/Active */
+.btn-volver:hover {
+  background-color: #22a3a0;
+  transform: scale(1.03);
 }
 
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.btn-volver:active {
+  background-color: #1c8f8c;
+  transform: scale(0.97);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .error-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .btn-volver {
+    width: 90%;
+    font-size: 14px;
+  }
 }

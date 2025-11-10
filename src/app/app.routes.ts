@@ -28,8 +28,4 @@ export const routes: Routes = [
       import('./pages/error404/error404.page').then((m) => m.Error404Page),
   },
   { path: '**', redirectTo: 'error404' },
-  {
-    path: 'perfil',
-    loadComponent: () => import('./pages/perfil/perfil.page').then( m => m.PerfilPage)
-  },
 ];

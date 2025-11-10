@@ -1,68 +1,115 @@
-/* Estilos existentes (mantener) */
-.calificacion-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #f5f9ff;
-  border: 1px solid #d0dfff;
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 8px;
-}
-
-.stars {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-}
-
-.stars ion-icon {
-  font-size: 32px;
-  color: #c5c5c5;
-  cursor: pointer;
-  transition: transform 0.2s, color 0.2s;
-}
-
-.stars ion-icon.active {
-  color: #ffc107; /* dorado */
-}
-
-.stars ion-icon:hover {
-  transform: scale(1.2);
-  color: #ffd54f;
-}
-
-.resultado {
-  margin-top: 8px;
-  font-size: 16px;
-  color: #2a7de1;
-  font-weight: bold;
+.viajes-page {
+  --background: #fff;
   text-align: center;
-}
+  position: relative;
 
-/* --- NUEVOS ESTILOS PARA EL OVERLAY DE LA ANIMACIÓN --- */
-.rating-animation {
-  position: fixed; /* Fija el elemento en la ventana del navegador */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex; /* Para centrar el contenido (Lottie y texto) */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
-  z-index: 9999; /* Asegura que esté por encima de todo lo demás */
-  color: white; /* Color del texto dentro del overlay */
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box; /* Incluye padding en el cálculo de width/height */
-}
+  /* ===== HEADER ===== */
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 8px;
+    position: relative;
 
-.rating-animation h3 {
-  margin-top: 15px; /* Espacio entre la animación y el texto */
-  font-size: 1.5em; /* Tamaño del texto */
-  color: #fff; /* Asegura que el texto sea blanco */
+    ion-back-button {
+      position: absolute;
+      left: 8px;
+      top: 18px; /* ajusta este valor para bajar o subir la flecha */
+      z-index: 10;
+      --color: #073166;
+    }
+
+    .logo {
+      width: 130px;
+      margin: 0 auto;
+      display: block;
+      padding-top: 10px;
+    }
+  }
+
+  /* ===== TÍTULO ===== */
+  .titulo {
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-top: 5px;
+    margin-bottom: 16px;
+  }
+
+  /* ===== CONTENEDOR PRINCIPAL ===== */
+  .viajes-container {
+    border: 1.5px solid #0078d4;
+    border-radius: 12px;
+    padding: 14px;
+    margin: 0 8px 24px;
+    text-align: left;
+    font-size: 0.95rem;
+
+    .viaje-item {
+      margin-bottom: 18px;
+      line-height: 1.4;
+
+      p {
+        margin: 0;
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 12px;
+      }
+
+      .calificacion-box {
+        margin-top: 10px;
+        text-align: center;
+
+        .stars {
+          ion-icon {
+            font-size: 24px;
+            color: #ccc;
+            transition: color 0.2s ease;
+
+            &.active {
+              color: #ffc107;
+            }
+          }
+        }
+
+        .resultado {
+          font-size: 0.9rem;
+          color: #333;
+          margin-top: 6px;
+        }
+      }
+    }
+  }
+
+  /* ===== BOTÓN ===== */
+  .btn-limpiar {
+    --background: #0a395f;
+    --border-radius: 20px;
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== ANIMACIÓN ===== */
+  .rating-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+
+    h3 {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+  }
 }

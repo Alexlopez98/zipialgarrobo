@@ -1,24 +1,24 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Mis Viajes</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding viajes-page">
 
-<ion-content class="ion-padding">
-  <h2>Historial de viajes 🚗</h2>
+  <!-- Header con botón de regreso y logo -->
+  <div class="header-container">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/home" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <img src="assets/icon/logo.png" alt="Zipi Algarrobo" class="logo" />
+  </div>
 
-  <ion-card *ngFor="let viaje of viajes">
-    <ion-card-header>
-      <ion-card-title>{{ viaje.destino }}</ion-card-title>
-      <ion-card-subtitle>Conductor: {{ viaje.conductor }}</ion-card-subtitle>
-    </ion-card-header>
+  <h2 class="titulo">MIS VIAJES</h2>
 
-    <ion-card-content>
+  <!-- Contenedor de viajes -->
+  <div class="viajes-container">
+    <div class="viaje-item" *ngFor="let viaje of viajes">
+      <p><strong>{{ viaje.destino }}</strong></p>
+      <p>Conductor: {{ viaje.conductor }}</p>
       <p>Duración: {{ viaje.duracion }}</p>
-      <p>Costo: {{ viaje.costo }}</p>
+      <p>{{ viaje.costo }}</p>
 
-      <p class="pregunta">¿Cómo calificarías este viaje?</p>
-
+      <!-- Sistema de estrellas -->
       <div class="calificacion-box">
         <div class="stars">
           <ion-icon
@@ -33,15 +33,21 @@
           Tu calificación: ⭐ {{ viaje.calificacion }}/5
         </div>
       </div>
-    </ion-card-content>
-  </ion-card>
+    </div>
+  </div>
 
+  <!-- Botón de limpiar -->
+  <ion-button expand="block" class="btn-limpiar" (click)="limpiarHistorial()">
+    LIMPIAR HISTORIAL
+  </ion-button>
+
+  <!-- Animación al calificar -->
   <div class="rating-animation" *ngIf="mostrarAnimacion">
     <ng-lottie
       [options]="animacionEstrellas"
       width="200"
       height="200">
-      </ng-lottie>
+    </ng-lottie>
     <h3>¡Gracias por tu calificación! 🌟</h3>
   </div>
 

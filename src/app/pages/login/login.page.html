@@ -6,7 +6,6 @@
   </div>
 
   <form (ngSubmit)="login()" #loginForm="ngForm">
-    <!-- Campo usuario -->
     <div style="margin-top: 20px;">
       <label>Usuario</label><br>
       <input
@@ -24,7 +23,7 @@
       </ion-note>
     </div>
 
-    <!-- Campo contraseña -->
+
     <div style="margin-top: 15px;">
       <label>Contraseña</label><br>
       <input
@@ -42,12 +41,12 @@
       </ion-note>
     </div>
 
-    <!-- Botón -->
+
     <div style="text-align:center; margin-top: 25px;">
       <button
         type="submit"
         [disabled]="loginForm.invalid"
-        style="background-color:#4499c0; color:white; padding:10px 60px; border:none; border-radius:20px; cursor:pointer;">
+        style="background-color:#186987; color:white; padding:10px 60px; border:none; border-radius:20px; cursor:pointer;">
         Ingresar
       </button>
     </div>

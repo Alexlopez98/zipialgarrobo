@@ -21,3 +21,60 @@ ion-note {
   color: #000000;
   opacity: 0.7; 
 }
+
+
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 8vh; 
+}
+
+
+.app-logo {
+  width: 40vw; 
+  max-width: 200px; 
+  min-width: 120px; 
+  height: auto; 
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+
+.app-logo:hover {
+  transform: scale(1.05);
+}
+
+
+.description {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+  max-width: 80%;
+}
+
+
+@media (max-width: 400px) {
+  .app-logo {
+    width: 55vw;
+    max-width: 160px;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .app-logo {
+    width: 25vw;
+    max-width: 240px;
+  }
+
+  .description {
+    font-size: 1.1rem;
+  }
+}

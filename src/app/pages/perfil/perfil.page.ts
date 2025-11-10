@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { LottieComponent } from 'ngx-lottie';
 import { LoaderOverlayComponent } from '../../shared/loader-overlay/loader-overlay.component';
 
+// 1. IMPORTA addIcons Y EL ÍCONO QUE FALTA
+import { addIcons } from 'ionicons';
+import { checkmarkCircleOutline } from 'ionicons/icons';
+
 @Component({
   selector: 'app-perfil',
   standalone: true,
@@ -24,7 +28,10 @@ export class PerfilPage implements OnInit {
   mensajeCarga = '';
   showLogoutOverlay = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    // 2. REGISTRA EL ÍCONO EN EL CONSTRUCTOR
+    addIcons({ checkmarkCircleOutline });
+  }
 
   ngOnInit() {
     const nav = this.router.getCurrentNavigation();
@@ -53,19 +60,19 @@ export class PerfilPage implements OnInit {
 
   showSuccessMessage = false;
 
-guardarCambios() {
-  this.showLoader = true;
-  this.showSuccessMessage = false;
+  guardarCambios() {
+    this.showLoader = true;
+    this.showSuccessMessage = false;
 
-  setTimeout(() => {
-    this.showLoader = false;
-    this.showSuccessMessage = true;
-
-    // Oculta el mensaje después de 3 segundos
     setTimeout(() => {
-      this.showSuccessMessage = false;
-    }, 3000);
-  }, 2500);
-}
+      this.showLoader = false;
+      this.showSuccessMessage = true;
+
+      // Oculta el mensaje después de 3 segundos
+      setTimeout(() => {
+        this.showSuccessMessage = false;
+      }, 3000);
+    }, 2500);
+  }
 
 }

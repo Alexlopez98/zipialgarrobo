@@ -1,158 +1,149 @@
-/* ======== PERFIL GENERAL ======== */
+.perfil-page {
+  --background: #f4f6f9;
+}
+
+.toolbar-custom {
+  --background: transparent;
+  --border-width: 0;
+  box-shadow: none;
+}
+
+ion-back-button::part(icon) {
+  transform: translateY(12px); 
+  transition: transform 0.2s ease;
+  color: #073166;
+}
+
+
+ion-toolbar {
+  display: flex;
+  align-items: center;
+  --background: transparent; 
+  --min-height: 56px;
+}
+
 .perfil-container {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-}
-
-h2 {
+  justify-content: flex-start;
   margin-top: 10px;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #222;
 }
 
-p {
-  color: #666;
-  margin-bottom: 15px;
-}
-
-/* ======== AVATAR ======== */
 .avatar {
-  margin: 20px auto;
-  width: 85px;
-  height: 85px;
+  width: 90px;
+  height: 90px;
   border: 3px solid #3880ff;
   border-radius: 50%;
   overflow: hidden;
-  animation: fadeIn 0.8s ease-in-out;
+  margin-bottom: 10px;
 }
 
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ======== TARJETA DE INFORMACIÓN ======== */
-ion-card {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  animation: slideUp 0.6s ease-out;
+.perfil-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #cbd5e1;
+  width: 90%;
+  max-width: 380px;
+  margin-top: 10px;
 }
 
 ion-card-title {
   text-align: center;
   font-weight: 600;
+  font-size: 1rem;
+  color: #1a1a1a;
 }
 
 ion-item {
+  --background: transparent;
+  --highlight-color-focused: transparent;
+  border-radius: 6px;
   margin-bottom: 10px;
+  --padding-start: 0;
 }
 
-/* ======== BOTONES ======== */
-.botones {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto 40px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+ion-input {
+  background: #dbe3ea;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-top: 4px;
 }
 
-/* ======== OVERLAY GENERAL ======== */
+.btn-guardar {
+  --background: #186987;
+  width: 90%;
+  max-width: 380px;
+  margin-top: 20px;
+  --border-radius: 30px;
+  font-weight: 600;
+}
+
+.btn-cerrar {
+  --background: #39ccb1;
+  width: 90%;
+  max-width: 380px;
+  margin-top: 10px;
+  --border-radius: 30px;
+  font-weight: 600;
+}
+
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  inset: 0; /* igual que top: 0; right: 0; bottom: 0; left: 0 */
+  background: rgba(0, 0, 0, 0.7); /* fondo más oscuro */
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 9999;
-  opacity: 0;
-  animation: fadeIn 0.4s forwards;
+  z-index: 9999; /* encima de todo */
 }
 
-/* Contenido del overlay (centrado y visible) */
 .overlay-content {
-  color: white;
   text-align: center;
-  animation: popIn 0.5s ease-out;
-}
-
-.overlay-content h3 {
-  margin-top: 15px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #fff;
-}
-
-.success-message {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(8, 11, 17, 0.95);
   color: white;
-  padding: 20px 30px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.4s ease-out, fadeOut 0.4s ease-in 2.6s forwards;
-  z-index: 10000;
-  font-size: 1rem;
+  animation: fadeIn 0.4s ease;
 }
 
-.success-message ion-icon {
-  font-size: 24px;
-}
-
-/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: translate(-50%, -60%);
-  }
-}
-
-
-@keyframes slideUp {
-  from {
-    transform: translateY(40px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes popIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0.6;
-  }
-  to {
     transform: scale(1);
-    opacity: 1;
   }
+}
+
+
+/* --- Estilos para el Mensaje de Éxito --- */
+
+.success-message {
+  position: fixed; 
+  top: 20px;       
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 9999; 
+
+  background: #39ccb1; 
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+
+  animation: fadeIn 0.4s ease; 
+}
+
+.success-message ion-icon {
+  font-size: 24px; 
+}
+
+.success-message p {
+  margin: 0; 
+  font-weight: 500;
 }

@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonContent,
+  IonToolbar,
+  IonButtons,
+  IonMenuButton,
+} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { LoaderOverlayComponent } from '../../shared/loader-overlay/loader-overlay.component';
 import { LottieComponent } from 'ngx-lottie';
@@ -8,9 +13,17 @@ import { LottieComponent } from 'ngx-lottie';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, IonicModule, LoaderOverlayComponent, LottieComponent],
+  imports: [
+    CommonModule,
+    IonContent,
+    IonToolbar,
+    IonButtons,
+    IonMenuButton,
+    LoaderOverlayComponent,
+    LottieComponent,
+  ],
   templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss']
+  styleUrls: ['./home.page.scss'],
 })
 export class HomePage {
   usuario: string = 'Invitado';
@@ -39,7 +52,6 @@ export class HomePage {
       this.cargando = false;
       this.mostrarAnimacion = true;
 
-      // Ocultamos la animación luego de 3 segundos
       setTimeout(() => {
         this.mostrarAnimacion = false;
       }, 3000);

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { LottieComponent } from 'ngx-lottie';
 import { addIcons } from 'ionicons';
 import { star, starOutline } from 'ionicons/icons';
@@ -19,16 +19,19 @@ export class ViajesPage implements OnInit {
   animacionEstrellas = {
     path: 'assets/animations/starrating.json',
     loop: false,
-    autoplay: true // Se reproduce sola cuando aparece
+    autoplay: true
   };
 
-  constructor(private cdr: ChangeDetectorRef) {
-    // Registra los íconos de estrellas
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private alertController: AlertController
+  ) {
+    // Registrar íconos de estrellas
     addIcons({ star, starOutline });
   }
 
   ngOnInit() {
-    // Resetea los viajes cada vez que se carga la página (sin localStorage)
+    // Simulación de historial inicial (puedes cambiarlo luego)
     this.viajes = [
       {
         id: 1,
@@ -60,42 +63,56 @@ export class ViajesPage implements OnInit {
     ];
   }
 
-  // Función opcional
+  // Mostrar calificación (sin uso por ahora)
   mostrarCalificacion(viaje: any) {
     if (viaje.calificado) return;
   }
 
-  // --- FUNCIÓN CALIFICAR (con tiempo dinámico) ---
+  // --- FUNCIÓN CALIFICAR (con tiempo dinámico y animación Lottie) ---
   calificar(viaje: any, estrellas: number) {
-    // Si ya fue calificado, no hacer nada
-    if (viaje.calificado) {
-      return;
-    }
+    if (viaje.calificado) return;
 
     viaje.calificacion = estrellas;
     viaje.calificado = true;
+    this.mostrarAnimacion = true;
 
-    // 1. Muestra el overlay
-    this.mostrarAnimacion = true; 
-
-    // --- ¡LÓGICA DE TIEMPO DINÁMICO! ---
-    // 2. Define tus tiempos (en milisegundos)
-    // Puedes ajustar estos dos valores:
-    const tiempoBaseMs = 500;                 // 1.5 segundos (tiempo mínimo)
-    const tiempoAdicionalPorEstrellaMs = 1000; // 0.3 segundos extra por estrella
-
-    // 3. Calcula el tiempo total
+    const tiempoBaseMs = 500;
+    const tiempoAdicionalPorEstrellaMs = 1000;
     const duracionTotal = tiempoBaseMs + (estrellas * tiempoAdicionalPorEstrellaMs);
-    
-    // (Ej: 1 estrella = 1.8s, 5 estrellas = 3.0s)
-    // --- Fin de la lógica de tiempo ---
 
-    // 4. Usa el tiempo total calculado en el setTimeout
     setTimeout(() => {
       this.mostrarAnimacion = false;
-      // Forzar la detección de cambios
-      this.cdr.detectChanges(); 
-    }, duracionTotal); // <-- Usa la variable dinámica
+      this.cdr.detectChanges();
+    }, duracionTotal);
   }
 
+  // --- ✅ FUNCIÓN LIMPIAR HISTORIAL CON CONFIRMACIÓN ---
+  async limpiarHistorial() {
+    if (this.viajes.length === 0) {
+      const alertaVacio = await this.alertController.create({
+        header: 'Sin historial',
+        message: 'No hay viajes para limpiar.',
+        buttons: ['OK']
+      });
+      await alertaVacio.present();
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Deseas limpiar el historial de viajes?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Sí, limpiar',
+          handler: () => {
+            this.viajes = [];
+            this.cdr.detectChanges();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
