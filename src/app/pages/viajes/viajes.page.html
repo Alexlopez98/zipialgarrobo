@@ -1,6 +1,6 @@
 <ion-content class="ion-padding viajes-page">
 
-  <!-- Header con botón de regreso y logo -->
+  
   <div class="header-container">
     <ion-buttons slot="start">
       <ion-back-button default-href="/home" icon="arrow-back-outline"></ion-back-button>
@@ -10,7 +10,7 @@
 
   <h2 class="titulo">MIS VIAJES</h2>
 
-  <!-- Contenedor de viajes -->
+  
   <div class="viajes-container">
     <div class="viaje-item" *ngFor="let viaje of viajes">
       <p><strong>{{ viaje.destino }}</strong></p>
@@ -18,7 +18,7 @@
       <p>Duración: {{ viaje.duracion }}</p>
       <p>{{ viaje.costo }}</p>
 
-      <!-- Sistema de estrellas -->
+      
       <div class="calificacion-box">
         <div class="stars">
           <ion-icon
@@ -36,12 +36,12 @@
     </div>
   </div>
 
-  <!-- Botón de limpiar -->
+  
   <ion-button expand="block" class="btn-limpiar" (click)="limpiarHistorial()">
     LIMPIAR HISTORIAL
   </ion-button>
 
-  <!-- Animación al calificar -->
+  
   <div class="rating-animation" *ngIf="mostrarAnimacion">
     <ng-lottie
       [options]="animacionEstrellas"

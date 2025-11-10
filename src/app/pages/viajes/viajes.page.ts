@@ -26,12 +26,12 @@ export class ViajesPage implements OnInit {
     private cdr: ChangeDetectorRef,
     private alertController: AlertController
   ) {
-    // Registrar íconos de estrellas
+   
     addIcons({ star, starOutline });
   }
 
   ngOnInit() {
-    // Simulación de historial inicial (puedes cambiarlo luego)
+    
     this.viajes = [
       {
         id: 1,
@@ -63,12 +63,12 @@ export class ViajesPage implements OnInit {
     ];
   }
 
-  // Mostrar calificación (sin uso por ahora)
+  
   mostrarCalificacion(viaje: any) {
     if (viaje.calificado) return;
   }
 
-  // --- FUNCIÓN CALIFICAR (con tiempo dinámico y animación Lottie) ---
+  
   calificar(viaje: any, estrellas: number) {
     if (viaje.calificado) return;
 
@@ -86,7 +86,7 @@ export class ViajesPage implements OnInit {
     }, duracionTotal);
   }
 
-  // --- ✅ FUNCIÓN LIMPIAR HISTORIAL CON CONFIRMACIÓN ---
+  
   async limpiarHistorial() {
     if (this.viajes.length === 0) {
       const alertaVacio = await this.alertController.create({

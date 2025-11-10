@@ -1,6 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common'; // <-- 1. IMPORTA CommonModule AQUÍ
+import { CommonModule } from '@angular/common'; 
 import {
   IonApp,
   IonRouterOutlet,
@@ -27,7 +27,7 @@ import { mapOutline, albumsOutline, personCircleOutline, homeOutline, carOutline
   standalone: true,
   imports: [
     RouterLink,
-    CommonModule, // <-- 2. AÑADE CommonModule AQUÍ
+    CommonModule, 
     IonApp,
     IonRouterOutlet,
     IonMenu,

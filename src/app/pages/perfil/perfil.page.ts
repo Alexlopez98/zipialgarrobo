@@ -5,8 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LottieComponent } from 'ngx-lottie';
 import { LoaderOverlayComponent } from '../../shared/loader-overlay/loader-overlay.component';
-
-// 1. IMPORTA addIcons Y EL ÍCONO QUE FALTA
 import { addIcons } from 'ionicons';
 import { checkmarkCircleOutline } from 'ionicons/icons';
 
@@ -29,7 +27,6 @@ export class PerfilPage implements OnInit {
   showLogoutOverlay = false;
 
   constructor(private router: Router) {
-    // 2. REGISTRA EL ÍCONO EN EL CONSTRUCTOR
     addIcons({ checkmarkCircleOutline });
   }
 
@@ -68,7 +65,7 @@ export class PerfilPage implements OnInit {
       this.showLoader = false;
       this.showSuccessMessage = true;
 
-      // Oculta el mensaje después de 3 segundos
+      
       setTimeout(() => {
         this.showSuccessMessage = false;
       }, 3000);
