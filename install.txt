@@ -1,0 +1,24 @@
+=============================================
+Instrucciones para ejecutar SkeletonAPP
+=============================================
+
+1. Asegúrate de tener instalado Node.js (versión LTS recomendada):
+   https://nodejs.org/
+
+2. Abre una terminal (PowerShell o la terminal integrada de VS Code) en la carpeta del proyecto:
+   zipialgarrobo/
+
+3. Instala todas las dependencias necesarias ejecutando:
+   npm install
+
+4. Una vez finalizada la instalación, inicia la aplicación con:
+   ionic serve --lab
+
+=============================================
+Notas:
+- Este comando reinstalará automáticamente todo el contenido eliminado de la carpeta "node_modules".
+- No modifiques el archivo "package.json", ya que contiene las dependencias exactas del proyecto.
+- Proyecto desarrollado con Ionic + Angular + Material Design.
+- Incluye: Login funcional, Home con formulario, validaciones, animaciones y uso de MatDatepicker.
+- Para evaluar el proyecto, abrir en el navegador la URL que aparece al ejecutar el comando (ej: http://localhost:8100).
+=============================================
