@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { LottieComponent } from 'ngx-lottie';
 import { addIcons } from 'ionicons';
-import { star, starOutline } from 'ionicons/icons';
+import { star, starOutline, carSportOutline, calendarOutline, cashOutline, trashOutline, arrowBackOutline } from 'ionicons/icons';
+import { DbtaskService } from '../../services/dbtask';
 
 @Component({
   selector: 'app-viajes',
@@ -15,6 +16,8 @@ import { star, starOutline } from 'ionicons/icons';
 export class ViajesPage implements OnInit {
   viajes: any[] = [];
   mostrarAnimacion = false;
+  
+  usuarioActivo: string = '';
 
   animacionEstrellas = {
     path: 'assets/animations/starrating.json',
@@ -24,56 +27,53 @@ export class ViajesPage implements OnInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private dbtaskService: DbtaskService 
   ) {
-   
-    addIcons({ star, starOutline });
+    addIcons({ star, starOutline, carSportOutline, calendarOutline, cashOutline, trashOutline, arrowBackOutline });
   }
 
   ngOnInit() {
+  }
+
+  async ionViewWillEnter() {
+    this.usuarioActivo = await this.dbtaskService.obtenerUsuarioActivo() || '';
     
-    this.viajes = [
-      {
-        id: 1,
-        destino: 'Playa El Canelo',
-        conductor: 'Carlos Pérez',
-        duracion: '12 min',
-        costo: '$3.200',
-        calificacion: 0,
-        calificado: false
-      },
-      {
-        id: 2,
-        destino: 'Muelle de Algarrobo',
-        conductor: 'María López',
-        duracion: '8 min',
-        costo: '$2.800',
-        calificacion: 0,
-        calificado: false
-      },
-      {
-        id: 3,
-        destino: 'Mirador El Yeco',
-        conductor: 'José Martínez',
-        duracion: '15 min',
-        costo: '$3.900',
-        calificacion: 0,
-        calificado: false
-      }
-    ];
+    if (this.usuarioActivo) {
+      await this.cargarViajes();
+    }
   }
 
-  
-  mostrarCalificacion(viaje: any) {
-    if (viaje.calificado) return;
+  async cargarViajes() {
+    try {
+      const datosBD = await this.dbtaskService.obtenerViajes(this.usuarioActivo);
+      
+      this.viajes = datosBD.map((viaje: any) => ({
+        id: viaje.id,
+        destino: viaje.destino,
+        fecha: viaje.fecha, 
+        costo: typeof viaje.costo === 'number' ? `$${viaje.costo}` : viaje.costo,
+        estado: viaje.estado,
+        
+        conductor: 'Conductor Zipi', 
+        duracion: '15 min',          
+        calificacion: 0,     
+        calificado: false    
+      }));
+      
+      console.log('Viajes cargados:', this.viajes);
+
+    } catch (error) {
+      console.error('Error al cargar viajes', error);
+    }
   }
 
-  
   calificar(viaje: any, estrellas: number) {
     if (viaje.calificado) return;
 
     viaje.calificacion = estrellas;
     viaje.calificado = true;
+    
     this.mostrarAnimacion = true;
 
     const tiempoBaseMs = 500;
@@ -86,7 +86,6 @@ export class ViajesPage implements OnInit {
     }, duracionTotal);
   }
 
-  
   async limpiarHistorial() {
     if (this.viajes.length === 0) {
       const alertaVacio = await this.alertController.create({
@@ -100,13 +99,15 @@ export class ViajesPage implements OnInit {
 
     const alert = await this.alertController.create({
       header: 'Confirmar',
-      message: '¿Deseas limpiar el historial de viajes?',
+      message: '¿Deseas eliminar todo tu historial de la base de datos?',
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Sí, limpiar',
-          handler: () => {
-            this.viajes = [];
+          handler: async () => {
+            await this.dbtaskService.eliminarHistorial(this.usuarioActivo);
+            
+            this.viajes = []; 
             this.cdr.detectChanges();
           }
         }

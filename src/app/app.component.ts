@@ -13,12 +13,12 @@ import {
   IonItem,
   IonIcon,
   IonLabel,
-  IonMenuButton,
-  NavController
+  NavController 
 } from '@ionic/angular/standalone';
 import { LottieComponent } from 'ngx-lottie';
 import { addIcons } from 'ionicons';
 import { mapOutline, albumsOutline, personCircleOutline, homeOutline, carOutline, logOutOutline } from 'ionicons/icons';
+import { DbtaskService } from './services/dbtask';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +39,6 @@ import { mapOutline, albumsOutline, personCircleOutline, homeOutline, carOutline
     IonItem,
     IonIcon,
     IonLabel,
-    IonMenuButton,
     LottieComponent 
   ],
 })
@@ -55,7 +54,8 @@ export class AppComponent {
 
   constructor(
     private navCtrl: NavController,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dbtaskService: DbtaskService 
   ) {
     addIcons({ mapOutline, albumsOutline, personCircleOutline, homeOutline, carOutline, logOutOutline });
   }
@@ -69,6 +69,15 @@ export class AppComponent {
     this.cdr.detectChanges(); 
     
     await this.menu.close();
+
+    try {
+      const usuario = await this.dbtaskService.obtenerUsuarioActivo();
+      if (usuario) {
+        await this.dbtaskService.actualizarSesion(usuario, 0);
+      }
+    } catch (error) {
+      console.error('Error al cerrar sesión en BD:', error);
+    }
 
     setTimeout(() => {
       this.showLogoutOverlay = false;

@@ -1,80 +1,106 @@
-.description {
-  text-align: center; 
-  font-size: 1.1em;
-  color: #838a8d;
-  margin: 0;
+ion-content {
+  --background: #f4f5f8; 
 }
-.error {
-  color: red;
-  text-align: center;
-  margin-top: 15px;
-}
-
-ion-note {
-  display: block;
-  margin-top: 4px;
-  font-size: 0.9rem;
-  color: rgb(255, 0, 0);
-}
-
-.letras-imput::placeholder {
-  color: #000000;
-  opacity: 0.7; 
-}
-
-
 
 .login-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-top: 8vh; 
+  margin-top: 5vh; 
+  margin-bottom: 20px;
 }
-
 
 .app-logo {
-  width: 40vw; 
-  max-width: 200px; 
-  min-width: 120px; 
+  width: 60%; 
+  max-width: 250px; 
+  min-width: 120px;
   height: auto; 
-  object-fit: contain; 
+  object-fit: contain;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+  
   transition: transform 0.3s ease;
 }
-
 
 .app-logo:hover {
   transform: scale(1.05);
 }
 
-
 .description {
   font-size: 1rem;
-  color: #555;
-  margin-top: 10px;
-  max-width: 80%;
+  color: #666;
+  margin-top: 15px;
+  max-width: 90%; 
+  line-height: 1.4;
 }
 
+.letras-imput {
+  background-color: #94b7c9; 
+  width: 100%; 
+  padding: 12px; 
+  border-radius: 8px; 
+  border: 1px solid #94b7c9;
+  color: #000; 
+  font-size: 1rem;
+  
+  &:focus {
+    outline: none;
+    border-color: #186987; 
+    box-shadow: 0 0 5px rgba(24, 105, 135, 0.3);
+  }
+}
 
-@media (max-width: 400px) {
+.letras-imput::placeholder {
+  color: #333;
+  opacity: 0.6;
+}
+
+ion-note {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #eb445a; 
+  text-align: left;
+  padding-left: 5px;
+}
+
+.error {
+  color: #eb445a;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+@media (max-height: 600px) {
+  .login-header {
+    margin-top: 2vh; 
+  }
   .app-logo {
-    width: 55vw;
-    max-width: 160px;
-  }
-
-  .description {
-    font-size: 0.9rem;
+    max-width: 150px; 
   }
 }
-
 
 @media (min-width: 768px) {
+  .login-header {
+    margin-top: 10vh;
+  }
+  
   .app-logo {
-    width: 25vw;
-    max-width: 240px;
+    max-width: 300px; 
   }
 
   .description {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+  }
+
+
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   }
 }

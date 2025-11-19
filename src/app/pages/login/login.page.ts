@@ -1,42 +1,82 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular'; // Importar AlertController
 import { Router } from '@angular/router';
+import { DbtaskService } from '../../services/dbtask';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss']
+  styleUrls: ['./login.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class LoginPage {
   usuario: string = '';
   password: string = '';
-  error: string = '';
+  error: string = ''; 
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router, 
+    private dbtaskService: DbtaskService,
+    private alertCtrl: AlertController
+  ) {}
 
-  login() {
-    // Validaciones adicionales de seguridad
-    const usuarioValido = /^[a-zA-Z]+$/.test(this.usuario);
-    const passwordValido = /^[0-9]{4}$/.test(this.password);
+  async login() {
+    this.error = ''; 
 
-    if (!usuarioValido) {
-      this.error = 'El usuario debe contener solo letras.';
+    const passNum = parseInt(this.password);
+
+    if (!this.usuario || isNaN(passNum)) {
+      this.error = 'Credenciales inválidas';
       return;
     }
 
-    if (!passwordValido) {
-      this.error = 'La contraseña debe tener exactamente 4 números.';
-      return;
+    try {
+      const res = await this.dbtaskService.validarUsuario(this.usuario, passNum);
+      
+      if (res.rows.length > 0) {
+        await this.dbtaskService.actualizarSesion(this.usuario, 1);
+        this.router.navigate(['/home']);
+      } else {
+        const alert = await this.alertCtrl.create({
+          header: 'Usuario no encontrado',
+          message: '¿Desea registrarse con estas credenciales?',
+          buttons: [
+            { text: 'No', role: 'cancel' },
+            { 
+              text: 'Sí', 
+              handler: () => {
+                this.registrar(passNum);
+              }
+            }
+          ]
+        });
+        await alert.present();
+      }
+    } catch (error) {
+      console.error(error);
+      this.error = 'Error al conectar con la base de datos';
     }
+  }
 
-    // Login válido
-    this.error = '';
-    this.router.navigate(['/home'], {
-      state: { usuario: this.usuario, password: this.password }
+  async registrar(passNum: number) {
+    try {
+      await this.dbtaskService.registrarUsuario(this.usuario, passNum);
+      this.presentAlert('Éxito', 'Usuario registrado! Ingresando...');
+      this.router.navigate(['/home']);
+    } catch (error) {
+      this.error = 'El usuario ya existe.';
+    }
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      buttons: ['OK']
     });
+    await alert.present();
   }
 }

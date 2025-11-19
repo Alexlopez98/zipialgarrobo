@@ -1,19 +1,18 @@
 <ion-content class="ion-padding" >
 
-<ion-toolbar color="transparent" style="--background: transparent; box-shadow: none;">
-  <ion-buttons slot="end">
-    <ion-menu-button
-      style="
-        color: #073166;
-        font-size: 24px;
-        margin-right: 8px;
-      ">
-    </ion-menu-button>
-  </ion-buttons>
-</ion-toolbar>
-
+  <ion-toolbar color="transparent" style="--background: transparent; box-shadow: none;">
+    <ion-buttons slot="end">
+      <ion-menu-button
+        style="
+          color: #073166;
+          font-size: 24px;
+          margin-right: 8px;
+        ">
+      </ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
   <div class="login-header" style="text-align: center; margin-bottom: 20px; margin-top: 10px;">
-    <img src="assets/icon/logo.png" alt="Zipi Algarrobo Logo" style="width: 150px; height: auto;" class="app-logo"> 
+    <img src="assets/icon/logo.png" alt="Zipi Algarrobo Logo" class="app-logo" style="height: auto;"> 
   </div>
 
   <div class="welcome-container" style="text-align: center; margin-bottom: 30px;">
@@ -27,9 +26,26 @@
     </div>
   </div>
 
+  <ion-card style="margin-bottom: 20px; border-radius: 15px;">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label position="stacked">Selecciona tu Destino</ion-label>
+        <ion-select [(ngModel)]="destinoSeleccionado" placeholder="¿A dónde vas?">
+          <ion-select-option *ngFor="let destino of destinos" [value]="destino.nombre">
+            {{ destino.nombre }} (${{ destino.costo }})
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
   <div class="button-group">
     <div style="text-align:center; margin-top: 15px;">
-      <button (click)="pedirViaje()" style="background-color:#39ccb1; color:rgb(41, 32, 158); padding:12px 20px; border:none; border-radius:20px; cursor:pointer; width: 100%; box-sizing: border-box; font-size: 16px;">
+      <button 
+        (click)="pedirViaje()" 
+        [disabled]="!destinoSeleccionado" 
+        [style.opacity]="!destinoSeleccionado ? '0.6' : '1'"
+        style="background-color:#39ccb1; color:rgb(41, 32, 158); padding:12px 20px; border:none; border-radius:20px; cursor:pointer; width: 100%; box-sizing: border-box; font-size: 16px;">
         PEDIR VIAJE
       </button>
     </div>

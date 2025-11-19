@@ -1,40 +1,101 @@
+ion-content {
+  --background: #f4f5f8;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.app-logo {
+  width: 60%; 
+  max-width: 250px; 
+  min-width: 120px; 
+  height: auto; 
+  object-fit: contain;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.app-logo:hover {
+  transform: scale(1.05);
+}
+
 .welcome-container {
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 30px;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+  }
 }
 
 .map-container {
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
+  margin-bottom: 30px;
+  padding: 0 16px;
 }
 
 .fake-map {
-  width: 100%;
-  height: 250px;
   background-color: #e0e0e0;
-  border-radius: 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  height: 200px; 
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555;
-  font-weight: bold;
-  border: 2px solid #ccc;
-  animation: fadeIn 1s ease-in-out;
+  text-align: center;
+  
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    font-weight: 500;
+  }
 }
 
 .button-group {
   text-align: center;
-}
+  margin-top: 15px;
+  padding: 0 16px;
 
-ion-button {
-  margin-top: 10px;
-  font-size: 16px;
-  transition: transform 0.2s ease-in-out;
-}
+  button {
+    background-color: #39ccb1;
+    color: rgb(41, 32, 158);
+    padding: 14px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 350px; 
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(57, 204, 177, 0.3);
+    transition: transform 0.2s ease, opacity 0.3s ease;
 
-ion-button:hover {
-  transform: scale(1.05);
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
 }
 
 .success {
@@ -43,20 +104,22 @@ ion-button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(241, 241, 241, 0.7);
+  background: rgba(255, 255, 255, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 9999 ;
+  z-index: 9999;
   animation: fadeIn 0.4s ease;
-}
 
-.success h3 {
-  color: white;
-  margin-top: 10px;
-  text-align: center;
-  animation: popIn 0.6s ease;
+  h3 {
+    color: #4499c0;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    animation: popIn 0.6s ease;
+  }
 }
 
 @keyframes fadeIn {
@@ -69,4 +132,38 @@ ion-button:hover {
   to { transform: scale(1); opacity: 1; }
 }
 
+// --- MEDIA QUERIES (RESPONSIVIDAD REAL) ---
 
+// Para Tablets y Escritorio (pantallas mayores a 768px)
+@media (min-width: 768px) {
+  
+  .login-header {
+    margin-top: 40px; // Más espacio arriba
+  }
+
+  .app-logo {
+    // Permitimos que el logo crezca más
+    max-width: 350px; // <--- AHORA SÍ CRECERÁ
+    width: 30%;       // Un porcentaje equilibrado para pantallas grandes
+  }
+
+  .welcome-container h2 {
+    font-size: 2rem; // Texto más grande
+  }
+
+  .fake-map {
+    height: 350px; // Mapa más alto
+  }
+
+  .button-group button {
+    font-size: 1.2rem; // Botón más legible
+    padding: 16px 32px;
+  }
+}
+
+// Para Pantallas Extra Grandes (PC Full HD)
+@media (min-width: 1200px) {
+  .app-logo {
+    max-width: 450px; // Aún más grande en monitores grandes
+  }
+}

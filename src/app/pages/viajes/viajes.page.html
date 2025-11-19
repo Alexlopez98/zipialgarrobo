@@ -1,6 +1,4 @@
 <ion-content class="ion-padding viajes-page">
-
-  
   <div class="header-container">
     <ion-buttons slot="start">
       <ion-back-button default-href="/home" icon="arrow-back-outline"></ion-back-button>
@@ -10,45 +8,69 @@
 
   <h2 class="titulo">MIS VIAJES</h2>
 
-  
-  <div class="viajes-container">
-    <div class="viaje-item" *ngFor="let viaje of viajes">
-      <p><strong>{{ viaje.destino }}</strong></p>
-      <p>Conductor: {{ viaje.conductor }}</p>
-      <p>Duración: {{ viaje.duracion }}</p>
-      <p>{{ viaje.costo }}</p>
+  <div *ngIf="viajes.length === 0" class="empty-state" style="text-align: center; margin-top: 50px; opacity: 0.6;">
+    <ion-icon name="car-sport-outline" style="font-size: 60px;"></ion-icon>
+    <p>No tienes viajes registrados aún.</p>
+  </div>
 
+  <div class="viajes-container" *ngIf="viajes.length > 0">
+    <div class="viaje-item" *ngFor="let viaje of viajes">
       
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+        <p class="destino-text"><strong>{{ viaje.destino }}</strong></p>
+        <p class="precio-tag" style="color: var(--ion-color-success); font-weight: bold; font-size: 1.1em;">
+          {{ viaje.costo }}
+        </p>
+      </div>
+
+      <p class="conductor-text">Conductor: {{ viaje.conductor }}</p>
+      
+      <p style="font-size: 12px; color: gray; margin-top: 2px;">
+        <ion-icon name="calendar-outline" style="vertical-align: middle;"></ion-icon> 
+        {{ viaje.fecha }}
+      </p>
+
       <div class="calificacion-box">
         <div class="stars">
           <ion-icon
             *ngFor="let star of [1, 2, 3, 4, 5]"
             [name]="star <= viaje.calificacion ? 'star' : 'star-outline'"
             [class.active]="star <= viaje.calificacion"
-            (click)="calificar(viaje, star)">
+            (click)="calificar(viaje, star)"
+            style="font-size: 24px; margin: 0 2px; cursor: pointer;">
           </ion-icon>
         </div>
 
-        <div *ngIf="viaje.calificado" class="resultado">
+        <div *ngIf="viaje.calificado" class="resultado" style="margin-top: 5px; font-size: 14px; color: #555;">
           Tu calificación: ⭐ {{ viaje.calificacion }}/5
         </div>
       </div>
+      
+      <hr style="border-top: 1px solid #eee; margin: 15px 0;">
     </div>
   </div>
 
-  
-  <ion-button expand="block" class="btn-limpiar" (click)="limpiarHistorial()">
+  <ion-button 
+    expand="block" 
+    class="btn-limpiar" 
+    color="danger" 
+    fill="outline" 
+    (click)="limpiarHistorial()" 
+    [disabled]="viajes.length === 0"
+    style="margin-top: 20px;">
+    <ion-icon name="trash-outline" slot="start"></ion-icon>
     LIMPIAR HISTORIAL
   </ion-button>
 
-  
   <div class="rating-animation" *ngIf="mostrarAnimacion">
-    <ng-lottie
-      [options]="animacionEstrellas"
-      width="200"
-      height="200">
-    </ng-lottie>
-    <h3>¡Gracias por tu calificación! 🌟</h3>
+    <div class="animation-content">
+      <ng-lottie
+        [options]="animacionEstrellas"
+        width="200"
+        height="200">
+      </ng-lottie>
+      <h3>¡Gracias por tu calificación! 🌟</h3>
+    </div>
   </div>
 
 </ion-content>
