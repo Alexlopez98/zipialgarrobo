@@ -11,8 +11,9 @@ export class DbtaskService {
   public database!: SQLiteObject;
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private isWeb: boolean = false;
+  
   private tablaSesion: string = "CREATE TABLE IF NOT EXISTS sesion_data (user_name TEXT PRIMARY KEY NOT NULL, password INTEGER NOT NULL, active INTEGER NOT NULL);";
-  private tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT NOT NULL, destino TEXT NOT NULL, fecha TEXT NOT NULL, costo INTEGER NOT NULL, estado TEXT NOT NULL);";
+  private tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT NOT NULL, destino TEXT NOT NULL, fecha TEXT NOT NULL, costo INTEGER NOT NULL, estado TEXT NOT NULL, conductor TEXT);";
 
   constructor(
     private platform: Platform, 
@@ -108,18 +109,18 @@ export class DbtaskService {
   }
 
 
-  async crearViaje(usuario: string, destino: string, costo: number) {
+  async crearViaje(usuario: string, destino: string, costo: number, conductor: string) {
     const fecha = new Date().toLocaleString(); 
     const estado = 'Completado';
 
     if (this.isWeb) {
       const viajes = await this.storage.get('viajes_data_web') || [];
-      viajes.push({ usuario, destino, fecha, costo, estado });
+      viajes.push({ usuario, destino, fecha, costo, estado, conductor });
       return await this.storage.set('viajes_data_web', viajes);
     }
 
-    const data = [usuario, destino, fecha, costo, estado];
-    return this.database.executeSql('INSERT INTO viajes(user_name, destino, fecha, costo, estado) VALUES(?, ?, ?, ?, ?)', data);
+    const data = [usuario, destino, fecha, costo, estado, conductor];
+    return this.database.executeSql('INSERT INTO viajes(user_name, destino, fecha, costo, estado, conductor) VALUES(?, ?, ?, ?, ?, ?)', data);
   }
 
   async obtenerViajes(usuario: string) {
@@ -139,7 +140,8 @@ export class DbtaskService {
               destino: res.rows.item(i).destino,
               fecha: res.rows.item(i).fecha,
               costo: res.rows.item(i).costo,
-              estado: res.rows.item(i).estado
+              estado: res.rows.item(i).estado,
+              conductor: res.rows.item(i).conductor 
             });
           }
         }
@@ -155,6 +157,4 @@ export class DbtaskService {
     }
     return this.database.executeSql('DELETE FROM viajes WHERE user_name = ?', [usuario]);
   }
-
-
 }

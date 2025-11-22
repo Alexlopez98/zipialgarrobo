@@ -1,35 +1,32 @@
-<ion-content class="ion-padding" >
+<ion-content class="ion-padding">
 
   <ion-toolbar color="transparent" style="--background: transparent; box-shadow: none;">
     <ion-buttons slot="end">
-      <ion-menu-button
-        style="
-          color: #073166;
-          font-size: 24px;
-          margin-right: 8px;
-        ">
+      <ion-menu-button style="color: #073166; font-size: 24px; margin-right: 8px;">
       </ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
-  <div class="login-header" style="text-align: center; margin-bottom: 20px; margin-top: 10px;">
-    <img src="assets/icon/logo.png" alt="Zipi Algarrobo Logo" class="app-logo" style="height: auto;"> 
+
+  <div class="login-header" style="text-align: center; margin-bottom: 10px; margin-top: 10px;">
+    <img src="assets/icon/logo.png" alt="Logo" class="app-logo" style="height: auto; width: 120px;"> 
   </div>
 
-  <div class="welcome-container" style="text-align: center; margin-bottom: 30px;">
+  <div class="welcome-container" style="text-align: center; margin-bottom: 10px;">
     <h2 style="font-size: 24px; margin-bottom: 5px;">¡Hola, {{ usuario }}!</h2>
-    <p style="color: #666; font-size: 16px; margin: 0;">¿A dónde quieres ir hoy?</p>
   </div>
 
-  <div class="map-container" style="margin-bottom: 30px;">
-    <div class="fake-map" style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 30px; padding: 50px 20px; text-align: center;">
-      <p style="margin: 0; font-size: 16px; color: #555;">🗺️ Mapa de Algarrobo (simulación)</p>
+  <div class="map-container">
+    <div id="mapId" style="height: 100%; width: 100%;"></div>
+    
+    <div *ngIf="!ubicacionActual" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
+       <ion-spinner name="dots"></ion-spinner>
     </div>
   </div>
 
-  <ion-card style="margin-bottom: 20px; border-radius: 15px;">
+  <ion-card style="margin-top: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
     <ion-card-content>
       <ion-item lines="none">
-        <ion-label position="stacked">Selecciona tu Destino</ion-label>
+        <ion-label position="stacked" style="color: #073166; font-weight: bold;">1. Selecciona Destino</ion-label>
         <ion-select [(ngModel)]="destinoSeleccionado" placeholder="¿A dónde vas?">
           <ion-select-option *ngFor="let destino of destinos" [value]="destino.nombre">
             {{ destino.nombre }} (${{ destino.costo }})
@@ -39,31 +36,40 @@
     </ion-card-content>
   </ion-card>
 
-  <div class="button-group">
-    <div style="text-align:center; margin-top: 15px;">
-      <button 
-        (click)="pedirViaje()" 
-        [disabled]="!destinoSeleccionado" 
-        [style.opacity]="!destinoSeleccionado ? '0.6' : '1'"
-        style="background-color:#39ccb1; color:rgb(41, 32, 158); padding:12px 20px; border:none; border-radius:20px; cursor:pointer; width: 100%; box-sizing: border-box; font-size: 16px;">
-        PEDIR VIAJE
-      </button>
-    </div>
+  <h3 style="margin-left: 10px; color: #073166; font-size: 18px;">2. Elige Conductor</h3>
+  
+  <div *ngIf="!destinoSeleccionado" style="text-align: center; color: #999; padding: 20px;">
+    <p>Selecciona un destino para ver conductores</p>
   </div>
+
+  <ion-list *ngIf="destinoSeleccionado" style="background: transparent;">
+    <ion-card *ngFor="let conductor of listaConductores" style="margin-bottom: 15px; border-radius: 15px;">
+      <ion-item lines="none" style="--background: white;">
+        <ion-avatar slot="start">
+          <ion-icon name="car-sport" style="font-size: 40px; color: #39ccb1;"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2 style="font-weight: bold;">{{ conductor.nombre }}</h2>
+          <p>{{ conductor.vehiculo }} | {{ conductor.patente }}</p>
+          <p style="color: #f5bf42; font-size: 14px;">
+            <ion-icon name="star"></ion-icon> {{ conductor.calificacion }}
+          </p>
+        </ion-label>
+        <ion-button slot="end" (click)="pedirViaje(conductor)" shape="round" color="primary">
+          Viajar
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </ion-list>
 
   <app-loader-overlay [visible]="cargando" [message]="mensajeCarga"></app-loader-overlay>
 
   <div class="success" *ngIf="mostrarAnimacion" style="text-align: center; margin-top: 25px;">
     <ng-lottie
-      [options]="{
-        path: 'assets/animations/success.json',
-        loop: false,
-        autoplay: true
-      }"
-      width="200"
-      height="200">
+      [options]="{ path: 'assets/animations/success.json', loop: false, autoplay: true }"
+      width="200" height="200">
     </ng-lottie>
-    <h3 style="color: #4499c0;">Conductor encontrado 🚗</h3>
+    <h3 style="color: #4499c0;">¡Conductor en camino! 🚗</h3>
   </div>
   
 </ion-content>

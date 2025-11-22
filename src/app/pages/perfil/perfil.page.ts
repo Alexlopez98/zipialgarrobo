@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { LottieComponent } from 'ngx-lottie';
 import { LoaderOverlayComponent } from '../../shared/loader-overlay/loader-overlay.component';
 import { addIcons } from 'ionicons';
-import { checkmarkCircleOutline, arrowBackOutline } from 'ionicons/icons';
+import { checkmarkCircleOutline, arrowBackOutline, cameraOutline } from 'ionicons/icons';
 import { Storage } from '@ionic/storage-angular';
 import { DbtaskService } from '../../services/dbtask';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-perfil',
@@ -26,8 +27,10 @@ export class PerfilPage implements OnInit {
   telefono = '';
   ubicacion = '';
   
+
+  fotoPerfil = 'https://cdn-icons-png.flaticon.com/512/847/847969.png';
+  
   showLoader = false;
-  mensajeCarga = '';
   showLogoutOverlay = false;
   showSuccessMessage = false;
 
@@ -37,7 +40,7 @@ export class PerfilPage implements OnInit {
     private dbtaskService: DbtaskService,
     private alertCtrl: AlertController 
   ) {
-    addIcons({ checkmarkCircleOutline, arrowBackOutline });
+    addIcons({ checkmarkCircleOutline, arrowBackOutline, cameraOutline });
     this.initStorage();
   }
 
@@ -53,13 +56,26 @@ export class PerfilPage implements OnInit {
       this.usuario = state['usuario'];
     } else {
       const usuarioActivo = await this.dbtaskService.obtenerUsuarioActivo();
-      if (usuarioActivo) {
-        this.usuario = usuarioActivo;
-      }
+      if (usuarioActivo) this.usuario = usuarioActivo;
     }
 
-    if (this.usuario) {
-      this.cargarDatosPerfil();
+    if (this.usuario) this.cargarDatosPerfil();
+  }
+
+  async cambiarFoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl, 
+        source: CameraSource.Prompt 
+      });
+
+      if (image.dataUrl) {
+        this.fotoPerfil = image.dataUrl;
+      }
+    } catch (error) {
+      console.log('Usuario canceló o error cámara', error);
     }
   }
 
@@ -71,22 +87,17 @@ export class PerfilPage implements OnInit {
       this.telefono = datos.telefono || '';
       this.ubicacion = datos.ubicacion || '';
       this.password = datos.password || ''; 
+      if (datos.foto) this.fotoPerfil = datos.foto;
     }
   }
 
   volver() {
-    this.router.navigate(['/home'], {
-      state: { usuario: this.usuario }
-    });
+    this.router.navigate(['/home'], { state: { usuario: this.usuario } });
   }
 
   async cerrarSesion() {
     this.showLogoutOverlay = true;
-    
-    if (this.usuario) {
-      await this.dbtaskService.actualizarSesion(this.usuario, 0);
-    }
-
+    if (this.usuario) await this.dbtaskService.actualizarSesion(this.usuario, 0);
     setTimeout(() => {
       this.showLogoutOverlay = false;
       this.router.navigate(['/login'], { replaceUrl: true });
@@ -110,27 +121,22 @@ export class PerfilPage implements OnInit {
       correo: this.correo,
       telefono: this.telefono,
       ubicacion: this.ubicacion,
-      password: this.password 
+      password: this.password,
+      foto: this.fotoPerfil 
     };
-    
 
     await this.storage.set(`perfil_${this.usuario}`, datosPerfil);
 
     setTimeout(() => {
       this.showLoader = false;
       this.showSuccessMessage = true;
-
-      setTimeout(() => {
-        this.showSuccessMessage = false;
-      }, 3000);
+      setTimeout(() => { this.showSuccessMessage = false; }, 3000);
     }, 1500);
   }
 
   async mostrarAlerta(header: string, message: string) {
     const alert = await this.alertCtrl.create({
-      header,
-      message,
-      buttons: ['OK']
+      header, message, buttons: ['OK']
     });
     await alert.present();
   }

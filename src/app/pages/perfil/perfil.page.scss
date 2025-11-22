@@ -14,7 +14,6 @@ ion-back-button::part(icon) {
   color: #073166;
 }
 
-
 ion-toolbar {
   display: flex;
   align-items: center;
@@ -31,14 +30,41 @@ ion-toolbar {
   margin-top: 10px;
 }
 
+/* --- NUEVOS ESTILOS PARA LA CÁMARA --- */
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+  cursor: pointer; /* Indica que es clickeable */
+}
+
 .avatar {
   width: 90px;
   height: 90px;
   border: 3px solid #3880ff;
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 10px;
+  /* El margin-bottom ahora lo maneja el wrapper */
 }
+
+.camera-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #39ccb1; /* Usé el mismo color turquesa de tu botón cerrar */
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+/* ------------------------------------- */
 
 .perfil-card {
   background: #fff;
@@ -115,7 +141,6 @@ ion-input {
     transform: scale(1);
   }
 }
-
 
 /* --- Estilos para el Mensaje de Éxito --- */
 

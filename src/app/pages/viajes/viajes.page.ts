@@ -54,8 +54,8 @@ export class ViajesPage implements OnInit {
         fecha: viaje.fecha, 
         costo: typeof viaje.costo === 'number' ? `$${viaje.costo}` : viaje.costo,
         estado: viaje.estado,
+        conductor: viaje.conductor || 'Conductor Zipi', 
         
-        conductor: 'Conductor Zipi', 
         duracion: '15 min',          
         calificacion: 0,     
         calificado: false    
