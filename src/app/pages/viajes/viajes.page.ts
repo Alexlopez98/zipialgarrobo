@@ -5,6 +5,7 @@ import { LottieComponent } from 'ngx-lottie';
 import { addIcons } from 'ionicons';
 import { star, starOutline, carSportOutline, calendarOutline, cashOutline, trashOutline, arrowBackOutline } from 'ionicons/icons';
 import { DbtaskService } from '../../services/dbtask';
+import { ApiConductoresService } from '../../services/api-conductores.service';
 
 @Component({
   selector: 'app-viajes',
@@ -28,7 +29,8 @@ export class ViajesPage implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private alertController: AlertController,
-    private dbtaskService: DbtaskService 
+    private dbtaskService: DbtaskService,
+    private apiService: ApiConductoresService 
   ) {
     addIcons({ star, starOutline, carSportOutline, calendarOutline, cashOutline, trashOutline, arrowBackOutline });
   }
@@ -55,10 +57,11 @@ export class ViajesPage implements OnInit {
         costo: typeof viaje.costo === 'number' ? `$${viaje.costo}` : viaje.costo,
         estado: viaje.estado,
         conductor: viaje.conductor || 'Conductor Zipi', 
-        
         duracion: '15 min',          
-        calificacion: 0,     
-        calificado: false    
+        
+        // RECUPERAMOS EL ESTADO REAL DE LA BD (Persistencia)
+        calificacion: viaje.calificacion || 0,     
+        calificado: viaje.calificado || false    
       }));
       
       console.log('Viajes cargados:', this.viajes);
@@ -69,13 +72,37 @@ export class ViajesPage implements OnInit {
   }
 
   calificar(viaje: any, estrellas: number) {
+    // Si ya está calificado, bloqueamos la acción (Regla de negocio: 1 voto por viaje)
     if (viaje.calificado) return;
 
+    // 1. ACTUALIZACIÓN VISUAL INMEDIATA
     viaje.calificacion = estrellas;
     viaje.calificado = true;
-    
     this.mostrarAnimacion = true;
 
+    // 2. GUARDAR EN BASE DE DATOS LOCAL (SQLite)
+    // Esto asegura que si cierras la app, recuerde que ya votaste
+    this.dbtaskService.actualizarCalificacionViaje(viaje.id, estrellas).then(() => {
+      console.log('Calificación guardada en local');
+    }).catch(e => console.error('Error guardando en local', e));
+
+    // 3. ENVIAR A LA API (BACKEND)
+    // Buscamos al conductor por nombre para obtener su ID y actualizar su promedio
+    this.apiService.getConductores().subscribe({
+      next: (conductores) => {
+        const conductorEncontrado = conductores.find(c => c.nombre === viaje.conductor);
+        
+        if (conductorEncontrado) {
+          this.apiService.calificarConductor(conductorEncontrado.id, estrellas).subscribe({
+            next: () => console.log(`API actualizada: ${conductorEncontrado.nombre} recibió ${estrellas} estrellas`),
+            error: (err) => console.error('Error al enviar a API:', err)
+          });
+        }
+      },
+      error: (err) => console.error('No se pudo conectar con la API para calificar', err)
+    });
+
+    // 4. ANIMACIÓN Y RESET
     const tiempoBaseMs = 500;
     const tiempoAdicionalPorEstrellaMs = 1000;
     const duracionTotal = tiempoBaseMs + (estrellas * tiempoAdicionalPorEstrellaMs);

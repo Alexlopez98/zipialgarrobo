@@ -9,39 +9,48 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class DbtaskService {
   public database!: SQLiteObject;
+  
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private isWeb: boolean = false;
   
-  private tablaSesion: string = "CREATE TABLE IF NOT EXISTS sesion_data (user_name TEXT PRIMARY KEY NOT NULL, password INTEGER NOT NULL, active INTEGER NOT NULL);";
-  private tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT NOT NULL, destino TEXT NOT NULL, fecha TEXT NOT NULL, costo INTEGER NOT NULL, estado TEXT NOT NULL, conductor TEXT);";
+  // Tabla de Usuarios (Contraseña como TEXTO)
+  private tablaSesion: string = "CREATE TABLE IF NOT EXISTS sesion_data (user_name TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, active INTEGER NOT NULL);";
+  
+  // Tabla de Viajes (CON COLUMNAS DE CALIFICACIÓN)
+  private tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT NOT NULL, destino TEXT NOT NULL, fecha TEXT NOT NULL, costo INTEGER NOT NULL, estado TEXT NOT NULL, conductor TEXT, calificacion INTEGER DEFAULT 0, calificado INTEGER DEFAULT 0);";
 
   constructor(
     private platform: Platform, 
     private sqlite: SQLite,
     private storage: Storage
   ) {
-    this.isWeb = !this.platform.is('capacitor') && !this.platform.is('cordova');
-    this.crearBD();
+    this.inicializarBD();
   }
 
-  async crearBD() {
-    await this.storage.create();
+  dbState() {
+    return this.isDbReady.asObservable();
+  }
+
+  async inicializarBD() {
+    await this.platform.ready();
     
-    this.platform.ready().then(() => {
-      if (this.isWeb) {
-        this.isDbReady.next(true);
-        return;
-      }
-      this.sqlite.create({
-        name: 'zipialgarrobo.db',
-        location: 'default'
-      })
-      .then((db: SQLiteObject) => {
+    this.isWeb = !this.platform.is('capacitor') && !this.platform.is('cordova');
+
+    if (this.isWeb) {
+      await this.storage.create();
+      this.isDbReady.next(true);
+    } else {
+      try {
+        const db = await this.sqlite.create({
+          name: 'zipialgarrobo.db',
+          location: 'default'
+        });
         this.database = db;
-        this.crearTablas();
-      })
-      .catch(e => console.error('Error al crear BD SQLite', e));
-    });
+        await this.crearTablas();
+      } catch (e) {
+        console.error('Error al crear BD SQLite', e);
+      }
+    }
   }
 
   async crearTablas() {
@@ -54,17 +63,18 @@ export class DbtaskService {
     }
   }
 
+  // --- GESTIÓN DE USUARIOS ---
 
-  async validarUsuario(user: string, pass: number) {
+  async validarUsuario(user: string, pass: string) {
     if (this.isWeb) {
       const usuarios = await this.storage.get('sesion_data_web') || [];
-      const encontrado = usuarios.find((u: any) => u.user_name === user && u.password === pass);
+      const encontrado = usuarios.find((u: any) => u.user_name === user && u.password.toString() === pass.toString());
       return Promise.resolve({ rows: { length: encontrado ? 1 : 0 } });
     }
     return this.database.executeSql('SELECT * FROM sesion_data WHERE user_name = ? AND password = ?', [user, pass]);
   }
 
-  async registrarUsuario(user: string, pass: number) {
+  async registrarUsuario(user: string, pass: string) {
     if (this.isWeb) {
       let usuarios = await this.storage.get('sesion_data_web') || [];
       if (usuarios.find((u: any) => u.user_name === user)) return Promise.reject('Usuario existe');
@@ -89,6 +99,19 @@ export class DbtaskService {
     return this.database.executeSql('UPDATE sesion_data SET active = ? WHERE user_name = ?', [active, user]);
   }
 
+  async actualizarPassword(user: string, newPass: string) {
+    if (this.isWeb) {
+      let usuarios = await this.storage.get('sesion_data_web') || [];
+      const index = usuarios.findIndex((u: any) => u.user_name === user);
+      if (index > -1) {
+        usuarios[index].password = newPass;
+        await this.storage.set('sesion_data_web', usuarios);
+      }
+      return Promise.resolve();
+    }
+    return this.database.executeSql('UPDATE sesion_data SET password = ? WHERE user_name = ?', [newPass, user]);
+  }
+
   async consultarSesionActiva() {
     if (this.isWeb) {
       const usuarios = await this.storage.get('sesion_data_web') || [];
@@ -108,6 +131,7 @@ export class DbtaskService {
       .then(res => (res.rows.length > 0 ? res.rows.item(0).user_name : null));
   }
 
+  // --- GESTIÓN DE VIAJES ---
 
   async crearViaje(usuario: string, destino: string, costo: number, conductor: string) {
     const fecha = new Date().toLocaleString(); 
@@ -115,12 +139,20 @@ export class DbtaskService {
 
     if (this.isWeb) {
       const viajes = await this.storage.get('viajes_data_web') || [];
-      viajes.push({ usuario, destino, fecha, costo, estado, conductor });
+      // ¡CORRECCIÓN WEB! Agregamos ID único (timestamp) para poder encontrarlo después
+      const nuevoViaje = { 
+        id: Date.now(), 
+        usuario, destino, fecha, costo, estado, conductor, 
+        calificacion: 0, 
+        calificado: 0 
+      };
+      viajes.push(nuevoViaje);
       return await this.storage.set('viajes_data_web', viajes);
     }
 
-    const data = [usuario, destino, fecha, costo, estado, conductor];
-    return this.database.executeSql('INSERT INTO viajes(user_name, destino, fecha, costo, estado, conductor) VALUES(?, ?, ?, ?, ?, ?)', data);
+    // SQL Nativo: Insertamos con calificación inicial 0
+    const data = [usuario, destino, fecha, costo, estado, conductor, 0, 0];
+    return this.database.executeSql('INSERT INTO viajes(user_name, destino, fecha, costo, estado, conductor, calificacion, calificado) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', data);
   }
 
   async obtenerViajes(usuario: string) {
@@ -141,12 +173,34 @@ export class DbtaskService {
               fecha: res.rows.item(i).fecha,
               costo: res.rows.item(i).costo,
               estado: res.rows.item(i).estado,
-              conductor: res.rows.item(i).conductor 
+              conductor: res.rows.item(i).conductor,
+              // Mapeamos los campos nuevos
+              calificacion: res.rows.item(i).calificacion,
+              calificado: res.rows.item(i).calificado === 1
             });
           }
         }
         return items;
       });
+  }
+
+  // Nueva función para guardar estrellas
+  async actualizarCalificacionViaje(id: number, estrellas: number) {
+    if (this.isWeb) {
+      let viajes = await this.storage.get('viajes_data_web') || [];
+      // Buscamos por el ID que ahora sí guardamos
+      const index = viajes.findIndex((v: any) => v.id === id);
+      
+      if (index !== -1) {
+        viajes[index].calificacion = estrellas;
+        viajes[index].calificado = 1;
+        await this.storage.set('viajes_data_web', viajes);
+      }
+      return Promise.resolve();
+    }
+    
+    // SQL Nativo: Update seguro
+    return this.database.executeSql('UPDATE viajes SET calificacion = ?, calificado = 1 WHERE id = ?', [estrellas, id]);
   }
 
   async eliminarHistorial(usuario: string) {

@@ -1,0 +1,49 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button 
+        defaultHref="/home" 
+        icon="arrow-back-outline" 
+        text="" 
+        style="color: #073166;">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: #073166; font-weight: bold;">Eliminar Conductor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding content-bg">
+
+  <div class="header-title" style="margin-top: 60px;">
+    <h2>Flota Actual</h2>
+    <p>Toca el ícono para eliminar</p>
+  </div>
+
+  <ion-list class="conductor-list">
+    
+    <ion-card *ngFor="let conductor of listaConductores" class="conductor-card">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <div class="avatar-placeholder">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </div>
+        </ion-avatar>
+        
+        <ion-label>
+          <h3>{{ conductor.nombre }}</h3>
+          <p>{{ conductor.vehiculo }} | <span class="patente">{{ conductor.patente }}</span></p>
+        </ion-label>
+
+        <ion-button slot="end" fill="clear" color="danger" (click)="confirmarEliminacion(conductor)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card>
+
+    <div *ngIf="listaConductores.length === 0" class="empty-state">
+      <p>No hay conductores registrados.</p>
+    </div>
+
+  </ion-list>
+
+</ion-content>

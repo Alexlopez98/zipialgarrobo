@@ -1,12 +1,14 @@
 <ion-content class="ion-padding perfil-page">
   
-  <ion-toolbar color="light" class="toolbar-custom">
-    <ion-buttons slot="start">
-      <ion-button (click)="volver()">
-        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <ion-header class="ion-no-border">
+    <ion-toolbar style="--background: transparent;">
+      <ion-buttons slot="start">
+        <ion-button (click)="volver()" style="color: #073166;">
+          <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
   <div class="perfil-container">
     
@@ -23,48 +25,83 @@
 
     <ion-card class="perfil-card">
       <ion-card-header>
-        <ion-card-title>Información de perfil del usuario</ion-card-title>
+        <ion-card-title style="text-align: center; color: #073166; font-weight: bold;">
+          Información del Usuario
+        </ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <ion-item>
-          <ion-label position="stacked">Usuario (ID)</ion-label>
-          <ion-input [(ngModel)]="usuario" readonly style="opacity: 0.7;"></ion-input>
-        </ion-item>
+        
+        <div class="input-group">
+          <label>Usuario (ID)</label>
+          <input 
+            type="text" 
+            [(ngModel)]="usuario" 
+            readonly 
+            class="letras-imput"
+            style="opacity: 0.7; background-color: #e0e0e0;">
+        </div>
 
-        <ion-item>
-          <ion-label position="stacked">Nombre Completo</ion-label>
-          <ion-input [(ngModel)]="nombre" placeholder="Tu nombre real"></ion-input>
-        </ion-item>
+        <div class="input-group">
+          <label>Nombre Completo</label>
+          <input 
+            type="text" 
+            [(ngModel)]="nombre" 
+            class="letras-imput"
+            placeholder="Tu nombre real">
+        </div>
 
-        <ion-item>
-          <ion-label position="stacked">Contraseña</ion-label>
-          <ion-input [(ngModel)]="password" type="password" placeholder="••••" minlength="4" maxlength="4"></ion-input>
-          <ion-note slot="helper">Debe ser numérica de 4 dígitos</ion-note>
-        </ion-item>
+        <div class="input-group">
+          <label>Contraseña</label>
+          <input 
+            type="password" 
+            [(ngModel)]="password" 
+            class="letras-imput"
+            placeholder="••••" 
+            minlength="4" 
+            maxlength="4">
+          <p style="font-size: 12px; color: #666; margin-top: 5px; margin-left: 5px;">
+            * Debe ser numérica de 4 dígitos
+          </p>
+        </div>
 
-        <ion-item>
-          <ion-label position="stacked">Correo electrónico</ion-label>
-          <ion-input [(ngModel)]="correo" placeholder="ejemplo@correo.com"></ion-input>
-        </ion-item>
+        <div class="input-group">
+          <label>Correo electrónico</label>
+          <input 
+            type="email" 
+            [(ngModel)]="correo" 
+            class="letras-imput"
+            placeholder="ejemplo@correo.com">
+        </div>
 
-        <ion-item>
-          <ion-label position="stacked">Teléfono</ion-label>
-          <ion-input [(ngModel)]="telefono" placeholder="Ej: +56 9 1234 5678"></ion-input>
-        </ion-item>
+        <div class="input-group">
+          <label>Teléfono</label>
+          <input 
+            type="tel" 
+            [(ngModel)]="telefono" 
+            class="letras-imput"
+            placeholder="Ej: +56 9 1234 5678">
+        </div>
 
-        <ion-item>
-          <ion-label position="stacked">Ubicación</ion-label>
-          <ion-input [(ngModel)]="ubicacion" placeholder="Ej: Algarrobo, Chile"></ion-input>
-        </ion-item>
+        <div class="input-group">
+          <label>Ubicación</label>
+          <input 
+            type="text" 
+            [(ngModel)]="ubicacion" 
+            class="letras-imput"
+            placeholder="Ej: Algarrobo, Chile">
+        </div>
+
       </ion-card-content>
     </ion-card>
 
-    <ion-button expand="block" class="btn-guardar" (click)="guardarCambios()">
+    <ion-button expand="block" class="btn-guardar ion-margin-top" (click)="guardarCambios()" 
+      style="--background: #186987; --border-radius: 20px;">
       GUARDAR CAMBIOS
     </ion-button>
 
-    <ion-button expand="block" class="btn-cerrar" (click)="cerrarSesion()">
+    <ion-button expand="block" fill="outline" class="btn-cerrar ion-margin-top" (click)="cerrarSesion()" 
+      style="--color: #eb445a; --border-color: #eb445a; --border-radius: 20px;">
       CERRAR SESIÓN
     </ion-button>
   </div>

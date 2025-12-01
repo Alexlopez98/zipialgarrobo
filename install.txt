@@ -1,28 +1,63 @@
-=============================================
-Instrucciones para ejecutar SkeletonAPP
-=============================================
+================================================================
+GUÍA DE INSTALACIÓN Y EJECUCIÓN - ZIPI ALGARROBO
+================================================================
 
-1. Asegúrate de tener instalado Node.js (versión LTS recomendada):
-   https://nodejs.org/
+PASO 1: INSTALAR DEPENDENCIAS
+Si es la primera vez que descargas el proyecto:
 
-2. Abre una terminal (PowerShell o la terminal integrada de VS Code) en la carpeta del proyecto:
+1. Abre una terminal en la carpeta del proyecto:
    zipialgarrobo/
 
-3. Instala todas las dependencias necesarias ejecutando:
+2. Ejecuta el comando para descargar las librerías:
    npm install
 
-4. Una vez finalizada la instalación, inicia la aplicación con:
-   ionic serve --lab
+----------------------------------------------------------------
 
-=============================================
-Notas:
-- Este comando reinstalará automáticamente todo el contenido eliminado de la carpeta "node_modules".
-- No modifiques el archivo "package.json", ya que contiene las dependencias exactas del proyecto.
-- Proyecto desarrollado con Ionic + Angular + Material Design.
-- Incluye: Login funcional, Home con formulario, validaciones, animaciones y uso de MatDatepicker.
-- Para evaluar el proyecto, abrir en el navegador la URL que aparece al ejecutar el comando (ej: http://localhost:8100).
-=============================================
+PASO 2: CONECTAR LA API (BACKEND)
+Antes de abrir la app, asegúrate de que tu servidor Python esté corriendo.
+(De lo contrario, no podrás iniciar sesión ni ver conductores).
 
+> En otra terminal, ve a la carpeta de tu API y ejecuta:
+  uvicorn backend_zipi.main:app --reload --host 0.0.0.0 --port 8000
 
+----------------------------------------------------------------
 
-Link github: https://github.com/Alexlopez98/zipialgarrobo.git
+PASO 3: EJECUTAR LA APP (Elige una opción)
+
+OPCIÓN A: EJECUTAR EN ANDROID (Recomendado)
+Esta es la única forma de probar la Base de Datos nativa (SQLite),
+la geolocalización real y la cámara en el emulador.
+
+1. Construye el proyecto web:
+   ionic build
+
+2. Sincroniza con la carpeta nativa Android:
+   npx cap sync
+
+3. Abre Android Studio:
+   npx cap open android
+
+4. Dentro de Android Studio, presiona el botón "Play" (Run)
+   y selecciona tu emulador.
+
+---
+
+OPCIÓN B: EJECUTAR EN NAVEGADOR WEB
+Útil para probar diseño visual (CSS/HTML) rápidamente.
+Nota: La base de datos usará almacenamiento temporal del navegador,
+no el SQLite nativo del celular.
+
+1. Ejecuta:
+   ionic serve
+
+2. Se abrirá automáticamente en: http://localhost:8100
+
+================================================================
+NOTAS IMPORTANTES:
+- Login: Usa un usuario registrado en la base de datos o crea uno nuevo.
+- Mapas: Usamos Leaflet (OpenStreetMap).
+- IP API: 
+    * En Android Emulator, la app busca en: http://10.0.2.2:8000
+    * En Web, la app busca en: http://127.0.0.1:8000
+    * (Asegúrate de tener configurado 'api-conductores.service.ts' según corresponda).
+================================================================

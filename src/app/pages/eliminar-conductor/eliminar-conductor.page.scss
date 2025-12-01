@@ -1,0 +1,62 @@
+.content-bg {
+  --background: #f4f6f9;
+}
+
+.header-title {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  h2 { color: #073166; font-weight: 700; margin: 0; font-size: 1.4rem; }
+  p { color: #666; font-size: 0.9rem; margin-top: 5px; }
+}
+
+.conductor-list {
+  background: transparent;
+  padding: 0;
+}
+
+.conductor-card {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  background: white;
+  
+  ion-item {
+    --background: white;
+    --padding-start: 0;
+  }
+}
+
+.avatar-placeholder {
+  background: #eef2f5;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  ion-icon {
+    font-size: 28px;
+    color: #186987;
+  }
+}
+
+ion-label {
+  h3 { font-weight: 700; color: #073166; font-size: 1rem; }
+  p { color: #666; font-size: 0.85rem; }
+  .patente { 
+    background: #f0f0f0; 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    font-weight: 600; 
+    font-size: 0.8rem;
+    color: #333;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 50px;
+  color: #999;
+}

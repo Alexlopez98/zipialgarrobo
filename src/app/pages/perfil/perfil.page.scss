@@ -2,25 +2,18 @@
   --background: #f4f6f9;
 }
 
+/* --- HEADER Y TOOLBAR --- */
 .toolbar-custom {
   --background: transparent;
   --border-width: 0;
   box-shadow: none;
 }
 
-ion-back-button::part(icon) {
-  transform: translateY(12px); 
-  transition: transform 0.2s ease;
+ion-back-button {
   color: #073166;
 }
 
-ion-toolbar {
-  display: flex;
-  align-items: center;
-  --background: transparent; 
-  --min-height: 56px;
-}
-
+/* --- CONTENEDOR PRINCIPAL --- */
 .perfil-container {
   text-align: center;
   display: flex;
@@ -28,14 +21,15 @@ ion-toolbar {
   align-items: center;
   justify-content: flex-start;
   margin-top: 10px;
+  padding-bottom: 40px;
 }
 
-/* --- NUEVOS ESTILOS PARA LA CÁMARA --- */
+/* --- AVATAR Y CÁMARA (Tu estilo original) --- */
 .avatar-wrapper {
   position: relative;
   display: inline-block;
   margin-bottom: 10px;
-  cursor: pointer; /* Indica que es clickeable */
+  cursor: pointer;
 }
 
 .avatar {
@@ -44,14 +38,13 @@ ion-toolbar {
   border: 3px solid #3880ff;
   border-radius: 50%;
   overflow: hidden;
-  /* El margin-bottom ahora lo maneja el wrapper */
 }
 
 .camera-badge {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #39ccb1; /* Usé el mismo color turquesa de tu botón cerrar */
+  background: #39ccb1; 
   color: white;
   border-radius: 50%;
   width: 30px;
@@ -64,8 +57,8 @@ ion-toolbar {
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   z-index: 10;
 }
-/* ------------------------------------- */
 
+/* --- TARJETA DE DATOS --- */
 .perfil-card {
   background: #fff;
   border-radius: 12px;
@@ -73,30 +66,49 @@ ion-toolbar {
   width: 90%;
   max-width: 380px;
   margin-top: 10px;
+  padding: 10px; /* Espacio interno para que no se peguen los bordes */
 }
 
-ion-card-title {
-  text-align: center;
-  font-weight: 600;
+/* --- ESTILOS DE LOS INPUTS (Adaptado para Android) --- */
+.input-group {
+  margin-bottom: 15px;
+  text-align: left; /* Alineamos etiquetas a la izquierda */
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #073166;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding-left: 5px;
+  }
+}
+
+/* Esta es la clase clave que reemplaza a ion-input */
+.letras-imput {
+  background-color: #dbe3ea; /* Tu color gris azulado original */
+  width: 100%; 
+  padding: 10px 12px; 
+  border-radius: 6px; 
+  border: 1px solid transparent; /* Borde invisible por defecto */
+  color: #000; 
   font-size: 1rem;
-  color: #1a1a1a;
+  box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+  
+  &:focus {
+    outline: none;
+    border-color: #186987; 
+    background-color: #fff; /* Efecto visual al escribir */
+    box-shadow: 0 0 5px rgba(24, 105, 135, 0.2);
+  }
+  
+  &:read-only {
+    opacity: 0.7;
+    pointer-events: none;
+  }
 }
 
-ion-item {
-  --background: transparent;
-  --highlight-color-focused: transparent;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  --padding-start: 0;
-}
-
-ion-input {
-  background: #dbe3ea;
-  border-radius: 6px;
-  padding: 8px 10px;
-  margin-top: 4px;
-}
-
+/* --- BOTONES --- */
 .btn-guardar {
   --background: #186987;
   width: 90%;
@@ -104,17 +116,21 @@ ion-input {
   margin-top: 20px;
   --border-radius: 30px;
   font-weight: 600;
+  height: 48px; /* Altura cómoda para el dedo */
 }
 
 .btn-cerrar {
-  --background: #39ccb1;
+  --color: #39ccb1;
+  --border-color: #39ccb1;
   width: 90%;
   max-width: 380px;
   margin-top: 10px;
   --border-radius: 30px;
   font-weight: 600;
+  height: 48px;
 }
 
+/* --- OVERLAYS Y ANIMACIONES (Sin cambios) --- */
 .overlay {
   position: fixed;
   inset: 0; 
@@ -141,8 +157,6 @@ ion-input {
     transform: scale(1);
   }
 }
-
-/* --- Estilos para el Mensaje de Éxito --- */
 
 .success-message {
   position: fixed; 

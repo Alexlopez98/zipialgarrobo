@@ -1,0 +1,29 @@
+================================================================
+REQUISITOS DEL SISTEMA - ZIPI ALGARROBO (FRONTEND)
+================================================================
+
+Para desarrollar, compilar y ejecutar esta aplicación Ionic/Capacitor,
+necesitas tener instalado el siguiente software en tu equipo:
+
+1. Node.js (Entorno de ejecución)
+   - Versión recomendada: LTS (v18 o superior).
+   - Descarga: https://nodejs.org/
+
+2. Ionic CLI (Herramienta de línea de comandos)
+   - Se instala globalmente una vez tengas Node.js.
+   - Comando: npm install -g @ionic/cli
+
+3. Android Studio (Para compilar la App Móvil)
+   - Necesario para usar el emulador de Android y gestionar SDKs.
+   - Debe incluir: Android SDK Build-Tools y Android Emulator.
+   - Descarga: https://developer.android.com/studio
+
+4. Java JDK (Para compilar Android)
+   - Versión recomendada: JDK 17 (para compatibilidad con Gradle reciente).
+
+5. API Backend (FastAPI)
+   - La aplicación requiere que el servidor Python esté corriendo
+     para cargar la lista de conductores y realizar el login.
+   - Ver instrucciones en la carpeta /FastApi/install.txt
+
+================================================================

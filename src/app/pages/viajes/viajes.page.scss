@@ -1,115 +1,79 @@
 .viajes-page {
-  --background: #fff;
-  text-align: center;
-  position: relative;
+  --background: #f4f6f9; /* Color de fondo unificado */
+}
 
-  /* ===== HEADER ===== */
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 8px;
-    position: relative;
+/* --- HEADER Y LOGO RESPONSIVO --- */
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Margen para que no quede pegado al toolbar */
+  margin-top: 40px; 
+  margin-bottom: 20px;
+}
 
-    ion-back-button {
-      position: absolute;
-      left: 8px;
-      top: 18px; 
-      z-index: 10;
-      --color: #073166;
-    }
+.app-logo {
+  width: 50%;           /* En celular ocupa la mitad */
+  max-width: 180px;     /* Límite móvil */
+  min-width: 120px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
 
-    .logo {
-      width: 130px;
-      margin: 0 auto;
-      display: block;
-      padding-top: 10px;
-    }
+.app-logo:hover {
+  transform: scale(1.05);
+}
+
+.titulo {
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* --- CONTENEDOR DE VIAJES --- */
+.viajes-container {
+  /* Quitamos el borde azul y dejamos un diseño más limpio */
+  padding: 0 8px; 
+  margin-bottom: 24px;
+}
+
+/* --- BOTÓN --- */
+.btn-limpiar {
+  width: 90%;
+  margin: 0 auto;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* --- MEDIA QUERIES (TABLET / PC) --- */
+@media (min-width: 768px) {
+  
+  .login-header {
+    margin-top: 60px; /* Más espacio arriba en pantallas grandes */
   }
 
-  /* ===== TÍTULO ===== */
+  .app-logo {
+    width: 30%;       
+    max-width: 350px; /* Crece en PC */
+  }
+
   .titulo {
-    font-weight: bold;
-    font-size: 1.4rem;
-    margin-top: 5px;
-    margin-bottom: 16px;
+    font-size: 2rem; 
   }
 
-  /* ===== CONTENEDOR PRINCIPAL ===== */
   .viajes-container {
-    border: 1.5px solid #0078d4;
-    border-radius: 12px;
-    padding: 14px;
-    margin: 0 8px 24px;
-    text-align: left;
-    font-size: 0.95rem;
-
-    .viaje-item {
-      margin-bottom: 18px;
-      line-height: 1.4;
-
-      p {
-        margin: 0;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 12px;
-      }
-
-      .calificacion-box {
-        margin-top: 10px;
-        text-align: center;
-
-        .stars {
-          ion-icon {
-            font-size: 24px;
-            color: #ccc;
-            transition: color 0.2s ease;
-
-            &.active {
-              color: #ffc107;
-            }
-          }
-        }
-
-        .resultado {
-          font-size: 0.9rem;
-          color: #333;
-          margin-top: 6px;
-        }
-      }
-    }
+    max-width: 600px; /* Centramos el contenido en PC */
+    margin: 0 auto 30px;
   }
+}
 
-  /* ===== BOTÓN ===== */
-  .btn-limpiar {
-    --background: #0a395f;
-    --border-radius: 20px;
-    width: 80%;
-    margin: 0 auto;
-    display: block;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-
-  /* ===== ANIMACIÓN ===== */
-  .rating-animation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-
-    h3 {
-      margin-top: 10px;
-      font-weight: 600;
-    }
+@media (min-width: 1200px) {
+  .app-logo {
+    max-width: 450px; 
   }
 }

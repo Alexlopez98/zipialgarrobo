@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonToolbar, IonButtons, IonMenuButton, IonCard, IonCardContent,
   IonItem, IonLabel, IonSelect, IonSelectOption, IonList, IonAvatar, IonIcon,
-  IonButton, IonSpinner, IonText
+  IonButton, IonSpinner, IonText, ViewWillEnter
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { LoaderOverlayComponent } from '../../shared/loader-overlay/loader-overlay.component';
@@ -28,7 +28,7 @@ import * as L from 'leaflet';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, ViewWillEnter {
   
   usuario: string = 'Invitado';
   destinoSeleccionado: string = ''; 
@@ -56,15 +56,22 @@ export class HomePage implements OnInit {
   }
 
   async ngOnInit() {
+    // 1. CORRECCIÓN ICONOS: Arreglamos los iconos antes de cargar nada
+    this.fixLeafletIcons();
+
+    // 2. Ubicación
     await this.obtenerUbicacion();
-    this.cargarConductores();
   }
 
   async ionViewWillEnter() {
+    // Actualizar nombre de usuario
     const usuarioActivo = await this.dbtaskService.obtenerUsuarioActivo();
     if (usuarioActivo) {
       this.usuario = usuarioActivo;
     }
+
+    // Actualizar lista de conductores (por si se registró uno nuevo)
+    this.cargarConductores();
   }
 
   async obtenerUbicacion() {
@@ -96,6 +103,21 @@ export class HomePage implements OnInit {
     }, 500);
   }
 
+  // FUNCIÓN PARA ARREGLAR LOS ICONOS ROTOS DE LEAFLET
+  fixLeafletIcons() {
+    const iconDefault = L.icon({
+      iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+      iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
+    L.Marker.prototype.options.icon = iconDefault;
+  }
+
   cargarConductores() {
     this.apiService.getConductores().subscribe({
       next: (data) => {
@@ -103,9 +125,8 @@ export class HomePage implements OnInit {
       },
       error: (err) => {
         console.error('Error API:', err);
-        this.listaConductores = [
-            {nombre: 'Juan (Offline)', vehiculo: 'Error API', patente: '---', calificacion: 0}
-        ];
+        // Si falla la API, mostramos lista vacía o de error
+        this.listaConductores = [];
       }
     });
   }

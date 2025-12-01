@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <div class="login-header">
+    <img src="assets/icon/logo.png" alt="Zipi Logo" class="app-logo">
+    <p class="description">Crea tu cuenta para comenzar a viajar</p>
+  </div>
+
+  <form (ngSubmit)="registrar()" #registroForm="ngForm">
+    
+    <div style="margin-top: 20px;">
+      <label style="margin-bottom: 5px; display: block; color: #333;">Usuario</label>
+      <input
+        type="text"
+        name="usuario"
+        [(ngModel)]="usuario"
+        required
+        pattern="^[a-zA-Z]+$"
+        placeholder="Ingresa tu nombre (a-z)"
+        #usuarioInput="ngModel"
+        class="letras-imput" 
+      >
+      <ion-note color="danger" *ngIf="usuarioInput.invalid && usuarioInput.touched">
+        El usuario debe contener solo letras.
+      </ion-note>
+    </div>
+
+    <div style="margin-top: 15px;">
+      <label style="margin-bottom: 5px; display: block; color: #333;">Contraseña</label>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        pattern="^[0-9]{4}$"
+        placeholder="Crea una clave de 4 números"
+        #passwordInput="ngModel"
+        class="letras-imput" 
+      >
+      <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
+        La contraseña debe ser de 4 números (Ej: 1234).
+      </ion-note>
+    </div>
+
+    <div style="text-align:center; margin-top: 30px;">
+      <button
+        type="submit"
+        class="btn-registro"
+        [disabled]="registroForm.invalid || cargando">
+        
+        <span *ngIf="!cargando">Registrarme</span>
+        <ion-spinner name="dots" *ngIf="cargando" style="color: white; vertical-align: middle;"></ion-spinner>
+      </button>
+    </div>
+
+  </form>
+
+</ion-content>

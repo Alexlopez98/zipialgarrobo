@@ -1,0 +1,92 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" icon="arrow-back-outline" text="" style="color: #073166;"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: #073166; font-weight: bold;">
+      {{ esConductor ? 'Mi Perfil Conductor' : 'Registro Conductor' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" style="--background: #f4f6f9;">
+
+  <div *ngIf="cargando" style="display: flex; justify-content: center; margin-top: 50%;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!cargando && esConductor" class="dashboard-container">
+    
+    <ion-card class="stats-card">
+      <ion-card-content style="text-align: center;">
+        <div class="avatar-circle">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <h2>{{ miPerfil.nombre }}</h2>
+        <p style="color: #666; margin-bottom: 15px;">{{ miPerfil.vehiculo }} | <span class="badge">{{ miPerfil.patente }}</span></p>
+        
+        <div class="rating-big">
+          <ion-icon name="star" color="warning"></ion-icon> 
+          <span>{{ miPerfil.calificacion | number:'1.1-1' }}</span>
+        </div>
+        <p style="font-size: 0.9rem; color: #888;">Promedio General</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="chart-card">
+      <ion-card-header>
+        <ion-card-title style="font-size: 1.1rem; color: #073166;">Rendimiento</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-item lines="none" style="--background: transparent; margin-top: 10px;">
+      <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+      <ion-label>
+        Estado Actual
+        <p>Tu cuenta está activa y visible para pasajeros.</p>
+      </ion-label>
+    </ion-item>
+
+  </div>
+
+  <div *ngIf="!cargando && !esConductor">
+    <div class="header-logo">
+      <div class="logo-circle">
+        <img src="assets/icon/logo.png" alt="Logo">
+      </div>
+      <h2>Únete al equipo Zipi</h2>
+      <p>Gana dinero extra conduciendo</p>
+    </div>
+
+    <ion-card class="form-card">
+      <ion-card-content>
+        <form (ngSubmit)="registrar()" #form="ngForm">
+          
+          <div class="input-group">
+            <label><ion-icon name="person-outline"></ion-icon> Nombre Completo</label>
+            <input type="text" [(ngModel)]="conductor.nombre" name="nombre" required class="letras-imput" placeholder="Ej: Juan Pérez">
+          </div>
+
+          <div class="input-group">
+            <label><ion-icon name="car-sport-outline"></ion-icon> Vehículo</label>
+            <input type="text" [(ngModel)]="conductor.vehiculo" name="vehiculo" required class="letras-imput" placeholder="Ej: Toyota Yaris">
+          </div>
+
+          <div class="input-group">
+            <label><ion-icon name="id-card-outline"></ion-icon> Patente</label>
+            <input type="text" [(ngModel)]="conductor.patente" name="patente" required class="letras-imput" style="text-transform: uppercase;" placeholder="ABCD-12">
+          </div>
+
+          <ion-button expand="block" type="submit" [disabled]="form.invalid" class="btn-primary">
+            REGISTRARME
+          </ion-button>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

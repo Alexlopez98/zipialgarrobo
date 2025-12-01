@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core'; // 1. Importar ViewChild
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule, AlertController } from '@ionic/angular'; // Importar AlertController
-import { Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms'; // 2. Importar NgForm
+import { IonicModule, ViewWillEnter } from '@ionic/angular';
+import { Router, RouterLink } from '@angular/router';
 import { DbtaskService } from '../../services/dbtask';
 
 @Component({
@@ -10,73 +10,79 @@ import { DbtaskService } from '../../services/dbtask';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink]
 })
-export class LoginPage {
+export class LoginPage implements OnInit, ViewWillEnter {
+  
+  // 3. Referencia al formulario del HTML (#loginForm="ngForm")
+  @ViewChild('loginForm') loginForm!: NgForm;
+
   usuario: string = '';
   password: string = '';
   error: string = ''; 
+  
+  isDbReady: boolean = false;
 
   constructor(
     private router: Router, 
-    private dbtaskService: DbtaskService,
-    private alertCtrl: AlertController
+    private dbtaskService: DbtaskService
   ) {}
+
+  ngOnInit() {
+    this.dbtaskService.dbState().subscribe((res) => {
+      if(res){
+        this.isDbReady = true;
+      }
+    });
+  }
+
+  // SE EJECUTA AL ENTRAR (O AL VOLVER DE UN LOGOUT)
+  ionViewWillEnter() {
+    // 4. Reseteamos todo
+    this.resetearFormulario();
+  }
+
+  resetearFormulario() {
+    // Limpia los mensajes de error generales
+    this.error = '';
+    
+    // Limpia los valores de las variables
+    this.usuario = '';
+    this.password = '';
+
+    // ¡EL TRUCO! Elimina el rastro de "campo tocado" o "error rojo"
+    if (this.loginForm) {
+      this.loginForm.resetForm();
+    }
+  }
 
   async login() {
     this.error = ''; 
 
-    const passNum = parseInt(this.password);
+    if (!this.isDbReady) {
+      this.error = 'Cargando base de datos... intenta de nuevo.';
+      return;
+    }
 
-    if (!this.usuario || isNaN(passNum)) {
-      this.error = 'Credenciales inválidas';
+    if (!this.usuario || !this.password) {
+      this.error = 'Por favor ingresa tus credenciales.';
       return;
     }
 
     try {
-      const res = await this.dbtaskService.validarUsuario(this.usuario, passNum);
+      const res = await this.dbtaskService.validarUsuario(this.usuario, this.password);
       
       if (res.rows.length > 0) {
         await this.dbtaskService.actualizarSesion(this.usuario, 1);
+        
+        // NOTA: Ya no borramos aquí, se borra solo al volver gracias a ionViewWillEnter
         this.router.navigate(['/home']);
       } else {
-        const alert = await this.alertCtrl.create({
-          header: 'Usuario no encontrado',
-          message: '¿Desea registrarse con estas credenciales?',
-          buttons: [
-            { text: 'No', role: 'cancel' },
-            { 
-              text: 'Sí', 
-              handler: () => {
-                this.registrar(passNum);
-              }
-            }
-          ]
-        });
-        await alert.present();
+        this.error = 'Usuario o contraseña incorrectos.';
       }
     } catch (error) {
       console.error(error);
-      this.error = 'Error al conectar con la base de datos';
+      this.error = 'Error técnico al iniciar sesión.';
     }
-  }
-
-  async registrar(passNum: number) {
-    try {
-      await this.dbtaskService.registrarUsuario(this.usuario, passNum);
-      this.presentAlert('Éxito', 'Usuario registrado! Ingresando...');
-      this.router.navigate(['/home']);
-    } catch (error) {
-      this.error = 'El usuario ya existe.';
-    }
-  }
-
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertCtrl.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
   }
 }

@@ -1,0 +1,97 @@
+.content-bg {
+  --background: #f4f6f9;
+}
+
+.header-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 25px;
+
+  .logo-circle {
+    background: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    img { width: 50px; }
+  }
+
+  h2 { color: #073166; font-weight: 700; margin: 0; font-size: 1.4rem; }
+  p { color: #666; font-size: 0.9rem; margin-top: 5px; }
+}
+
+.form-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin: 0;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #073166;
+    font-weight: 600;
+    ion-icon { margin-right: 8px; color: #186987; font-size: 1.1rem; }
+  }
+}
+
+.letras-imput {
+  background-color: #dbe3ea;
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: #333;
+  font-size: 1rem;
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+    background-color: #fff;
+    border-color: #186987;
+    box-shadow: 0 0 0 3px rgba(24, 105, 135, 0.15);
+  }
+}
+
+.btn-primary {
+  --background: #186987;
+  --border-radius: 25px;
+  margin-top: 10px;
+  font-weight: 700;
+  height: 50px;
+}
+
+
+.stats-card {
+  margin-top: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+
+  .avatar-circle {
+    width: 60px; height: 60px; background: #e3f2fd; color: #186987;
+    border-radius: 50%; margin: 0 auto 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 30px;
+  }
+
+  .badge { background: #eee; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+  
+  .rating-big {
+    font-size: 3rem; font-weight: 800; color: #333; display: flex;
+    align-items: center; justify-content: center; gap: 10px;
+    ion-icon { font-size: 2.5rem; }
+  }
+}
+
+.chart-card {
+  margin-top: 15px; border-radius: 15px; background: white;
+}

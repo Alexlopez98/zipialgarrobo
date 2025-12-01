@@ -1,3 +1,4 @@
+import { enableProdMode, importProvidersFrom } from '@angular/core'; // Agrega importProvidersFrom
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideRouter, RouteReuseStrategy, withPreloading, PreloadAllModules } from '@angular/router';
@@ -19,8 +20,16 @@ import {
   albumsOutline,
   personCircleOutline
 } from 'ionicons/icons';
-import { Drivers, Storage } from '@ionic/storage';
-import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { Drivers } from '@ionic/storage';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx'; 
+
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
 
 addIcons({ 
   menuOutline, personOutline, carOutline, logOutOutline, arrowBackOutline, 
@@ -39,17 +48,17 @@ bootstrapApplication(AppComponent, {
     provideLottieOptions({
       player: () => player,
     }),
-    {
-      provide: Storage,
-      useFactory: () => {
-        const storage = new Storage({
-          name: '__zipiDB',
-          driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
-        });
-        storage.create();
-        return storage;
-      }
-    },
-    SQLite
+
+    // --- CORRECCIÓN BASE DE DATOS ---
+    // Usamos importProvidersFrom para inicializar el módulo correctamente
+    importProvidersFrom(
+      IonicStorageModule.forRoot({
+        name: '__zipiDB',
+        // IMPORTANTE: Drivers.SQLite debe ir PRIMERO para usar la BD nativa del celular
+        driverOrder: ['sqlite', Drivers.IndexedDB, Drivers.LocalStorage]
+      })
+    ),
+    // Proveedor para el plugin nativo (necesario para que Drivers.SQLite funcione por debajo)
+    SQLite 
   ],
 });

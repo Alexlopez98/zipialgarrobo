@@ -27,7 +27,6 @@ export class PerfilPage implements OnInit {
   telefono = '';
   ubicacion = '';
   
-
   fotoPerfil = 'https://cdn-icons-png.flaticon.com/512/847/847969.png';
   
   showLoader = false;
@@ -105,17 +104,27 @@ export class PerfilPage implements OnInit {
   }
 
   async guardarCambios() {
+    // Validar si hay contraseña escrita y si cumple el formato
     if (this.password) {
       const passRegex = /^[0-9]{4}$/;
       if (!passRegex.test(this.password)) {
         this.mostrarAlerta('Error', 'La contraseña debe ser numérica de 4 dígitos.');
         return;
       }
+
+      // --- AQUÍ ESTÁ EL CAMBIO PRINCIPAL ---
+      // Actualizamos la contraseña también en la Base de Datos SQL para el Login
+      try {
+        await this.dbtaskService.actualizarPassword(this.usuario, this.password);
+      } catch (error) {
+        console.error('Error al sincronizar password con BD:', error);
+      }
     }
 
     this.showLoader = true;
     this.showSuccessMessage = false;
 
+    // Guardamos datos del perfil (foto, nombre, etc.) en Storage Local
     const datosPerfil = {
       nombre: this.nombre,
       correo: this.correo,

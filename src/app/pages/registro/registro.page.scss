@@ -1,0 +1,121 @@
+ion-content {
+  --background: #f4f5f8; 
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 5vh; 
+  margin-bottom: 20px;
+}
+
+.app-logo {
+  width: 60%; 
+  max-width: 250px; 
+  min-width: 120px;
+  height: auto; 
+  object-fit: contain;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.app-logo:hover {
+  transform: scale(1.05);
+}
+
+.description {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 15px;
+  max-width: 90%; 
+  line-height: 1.4;
+}
+
+/* Tu clase personalizada para los inputs */
+.letras-imput {
+  background-color: #94b7c9; 
+  width: 100%; 
+  padding: 12px; 
+  border-radius: 8px; 
+  border: 1px solid #94b7c9;
+  color: #000; 
+  font-size: 1rem;
+  
+  &:focus {
+    outline: none;
+    border-color: #186987; 
+    box-shadow: 0 0 5px rgba(24, 105, 135, 0.3);
+  }
+}
+
+.letras-imput::placeholder {
+  color: #333;
+  opacity: 0.6;
+}
+
+ion-note {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #eb445a; 
+  text-align: left;
+  padding-left: 5px;
+}
+
+.error {
+  color: #eb445a;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+/* Estilo del botón (extraído de tu HTML anterior para limpiar el código) */
+.btn-registro {
+  background-color: #186987;
+  color: white;
+  padding: 10px 60px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-height: 600px) {
+  .login-header {
+    margin-top: 2vh; 
+  }
+  .app-logo {
+    max-width: 150px; 
+  }
+}
+
+@media (min-width: 768px) {
+  .login-header {
+    margin-top: 10vh;
+  }
+  
+  .app-logo {
+    max-width: 300px; 
+  }
+
+  .description {
+    font-size: 1.2rem;
+  }
+
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+}
