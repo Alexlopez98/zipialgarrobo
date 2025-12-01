@@ -30,13 +30,11 @@ export class RegistroPage implements OnInit {
   ngOnInit() {}
 
   async registrar() {
-    // 1. Validaciones básicas
     if (!this.usuario || !this.password) {
       this.mostrarToast('Por favor completa todos los campos', 'warning');
       return;
     }
 
-    // 2. Validar formato numérico de 4 dígitos
     const passRegex = /^[0-9]{4}$/;
     if (!passRegex.test(this.password)) {
       this.mostrarToast('La contraseña debe ser de 4 números (Ej: 1234)', 'danger');
@@ -46,10 +44,8 @@ export class RegistroPage implements OnInit {
     this.cargando = true;
 
     try {
-      // 3. Intentar registrar en BD
       await this.dbtaskService.registrarUsuario(this.usuario, this.password);
       
-      // 4. Éxito: Login automático y redirigir
       await this.dbtaskService.actualizarSesion(this.usuario, 1);
       this.mostrarToast('¡Usuario creado con éxito!', 'success');
       

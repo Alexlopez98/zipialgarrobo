@@ -26,12 +26,10 @@ export class ApiConductoresService {
     return this.http.post(this.apiUrl + '/', conductor);
   }
 
-  // DELETE AHORA PIDE EL NOMBRE DE QUIEN BORRA
   eliminarConductor(id: number, solicitante: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}?nombre_solicitante=${solicitante}`);
   }
 
-  // NUEVA FUNCIÓN PARA CALIFICAR
   calificarConductor(id: number, estrellas: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${id}/calificar?estrellas=${estrellas}`, {});
   }

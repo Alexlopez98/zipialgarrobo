@@ -1,21 +1,19 @@
 .viajes-page {
-  --background: #f4f6f9; /* Color de fondo unificado */
+  --background: #f4f6f9; 
 }
 
-/* --- HEADER Y LOGO RESPONSIVO --- */
 .login-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Margen para que no quede pegado al toolbar */
   margin-top: 40px; 
   margin-bottom: 20px;
 }
 
 .app-logo {
-  width: 50%;           /* En celular ocupa la mitad */
-  max-width: 180px;     /* Límite móvil */
+  width: 50%;          
+  max-width: 180px;     
   min-width: 120px;
   height: auto;
   object-fit: contain;
@@ -35,14 +33,11 @@
   letter-spacing: 0.5px;
 }
 
-/* --- CONTENEDOR DE VIAJES --- */
 .viajes-container {
-  /* Quitamos el borde azul y dejamos un diseño más limpio */
   padding: 0 8px; 
   margin-bottom: 24px;
 }
 
-/* --- BOTÓN --- */
 .btn-limpiar {
   width: 90%;
   margin: 0 auto;
@@ -50,16 +45,15 @@
   letter-spacing: 0.5px;
 }
 
-/* --- MEDIA QUERIES (TABLET / PC) --- */
 @media (min-width: 768px) {
   
   .login-header {
-    margin-top: 60px; /* Más espacio arriba en pantallas grandes */
+    margin-top: 60px; 
   }
 
   .app-logo {
     width: 30%;       
-    max-width: 350px; /* Crece en PC */
+    max-width: 350px; 
   }
 
   .titulo {
@@ -67,7 +61,7 @@
   }
 
   .viajes-container {
-    max-width: 600px; /* Centramos el contenido en PC */
+    max-width: 600px; 
     margin: 0 auto 30px;
   }
 }

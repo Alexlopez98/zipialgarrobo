@@ -24,7 +24,7 @@ ion-back-button {
   padding-bottom: 40px;
 }
 
-/* --- AVATAR Y CÁMARA (Tu estilo original) --- */
+/* --- AVATAR Y CÁMARA  --- */
 .avatar-wrapper {
   position: relative;
   display: inline-block;
@@ -66,13 +66,13 @@ ion-back-button {
   width: 90%;
   max-width: 380px;
   margin-top: 10px;
-  padding: 10px; /* Espacio interno para que no se peguen los bordes */
+  padding: 10px; 
 }
 
 /* --- ESTILOS DE LOS INPUTS (Adaptado para Android) --- */
 .input-group {
   margin-bottom: 15px;
-  text-align: left; /* Alineamos etiquetas a la izquierda */
+  text-align: left; 
   
   label {
     display: block;
@@ -84,21 +84,20 @@ ion-back-button {
   }
 }
 
-/* Esta es la clase clave que reemplaza a ion-input */
 .letras-imput {
-  background-color: #dbe3ea; /* Tu color gris azulado original */
+  background-color: #dbe3ea; 
   width: 100%; 
   padding: 10px 12px; 
   border-radius: 6px; 
-  border: 1px solid transparent; /* Borde invisible por defecto */
+  border: 1px solid transparent; 
   color: #000; 
   font-size: 1rem;
-  box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+  box-sizing: border-box; 
   
   &:focus {
     outline: none;
     border-color: #186987; 
-    background-color: #fff; /* Efecto visual al escribir */
+    background-color: #fff; 
     box-shadow: 0 0 5px rgba(24, 105, 135, 0.2);
   }
   
@@ -116,7 +115,7 @@ ion-back-button {
   margin-top: 20px;
   --border-radius: 30px;
   font-weight: 600;
-  height: 48px; /* Altura cómoda para el dedo */
+  height: 48px; 
 }
 
 .btn-cerrar {

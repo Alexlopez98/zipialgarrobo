@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core'; // 1. Importar ViewChild
+import { Component, OnInit, ViewChild } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms'; // 2. Importar NgForm
+import { FormsModule, NgForm } from '@angular/forms'; 
 import { IonicModule, ViewWillEnter } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 import { DbtaskService } from '../../services/dbtask';
@@ -14,7 +14,6 @@ import { DbtaskService } from '../../services/dbtask';
 })
 export class LoginPage implements OnInit, ViewWillEnter {
   
-  // 3. Referencia al formulario del HTML (#loginForm="ngForm")
   @ViewChild('loginForm') loginForm!: NgForm;
 
   usuario: string = '';
@@ -36,21 +35,16 @@ export class LoginPage implements OnInit, ViewWillEnter {
     });
   }
 
-  // SE EJECUTA AL ENTRAR (O AL VOLVER DE UN LOGOUT)
   ionViewWillEnter() {
-    // 4. Reseteamos todo
     this.resetearFormulario();
   }
 
   resetearFormulario() {
-    // Limpia los mensajes de error generales
     this.error = '';
     
-    // Limpia los valores de las variables
     this.usuario = '';
     this.password = '';
 
-    // ¡EL TRUCO! Elimina el rastro de "campo tocado" o "error rojo"
     if (this.loginForm) {
       this.loginForm.resetForm();
     }
@@ -75,7 +69,6 @@ export class LoginPage implements OnInit, ViewWillEnter {
       if (res.rows.length > 0) {
         await this.dbtaskService.actualizarSesion(this.usuario, 1);
         
-        // NOTA: Ya no borramos aquí, se borra solo al volver gracias a ionViewWillEnter
         this.router.navigate(['/home']);
       } else {
         this.error = 'Usuario o contraseña incorrectos.';

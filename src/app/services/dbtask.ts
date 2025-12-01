@@ -139,7 +139,6 @@ export class DbtaskService {
 
     if (this.isWeb) {
       const viajes = await this.storage.get('viajes_data_web') || [];
-      // ¡CORRECCIÓN WEB! Agregamos ID único (timestamp) para poder encontrarlo después
       const nuevoViaje = { 
         id: Date.now(), 
         usuario, destino, fecha, costo, estado, conductor, 
@@ -150,7 +149,6 @@ export class DbtaskService {
       return await this.storage.set('viajes_data_web', viajes);
     }
 
-    // SQL Nativo: Insertamos con calificación inicial 0
     const data = [usuario, destino, fecha, costo, estado, conductor, 0, 0];
     return this.database.executeSql('INSERT INTO viajes(user_name, destino, fecha, costo, estado, conductor, calificacion, calificado) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', data);
   }
@@ -174,7 +172,6 @@ export class DbtaskService {
               costo: res.rows.item(i).costo,
               estado: res.rows.item(i).estado,
               conductor: res.rows.item(i).conductor,
-              // Mapeamos los campos nuevos
               calificacion: res.rows.item(i).calificacion,
               calificado: res.rows.item(i).calificado === 1
             });
@@ -184,11 +181,9 @@ export class DbtaskService {
       });
   }
 
-  // Nueva función para guardar estrellas
   async actualizarCalificacionViaje(id: number, estrellas: number) {
     if (this.isWeb) {
       let viajes = await this.storage.get('viajes_data_web') || [];
-      // Buscamos por el ID que ahora sí guardamos
       const index = viajes.findIndex((v: any) => v.id === id);
       
       if (index !== -1) {
@@ -199,7 +194,6 @@ export class DbtaskService {
       return Promise.resolve();
     }
     
-    // SQL Nativo: Update seguro
     return this.database.executeSql('UPDATE viajes SET calificacion = ?, calificado = 1 WHERE id = ?', [estrellas, id]);
   }
 

@@ -59,7 +59,6 @@ export class ViajesPage implements OnInit {
         conductor: viaje.conductor || 'Conductor Zipi', 
         duracion: '15 min',          
         
-        // RECUPERAMOS EL ESTADO REAL DE LA BD (Persistencia)
         calificacion: viaje.calificacion || 0,     
         calificado: viaje.calificado || false    
       }));
@@ -72,22 +71,16 @@ export class ViajesPage implements OnInit {
   }
 
   calificar(viaje: any, estrellas: number) {
-    // Si ya está calificado, bloqueamos la acción (Regla de negocio: 1 voto por viaje)
     if (viaje.calificado) return;
 
-    // 1. ACTUALIZACIÓN VISUAL INMEDIATA
     viaje.calificacion = estrellas;
     viaje.calificado = true;
     this.mostrarAnimacion = true;
 
-    // 2. GUARDAR EN BASE DE DATOS LOCAL (SQLite)
-    // Esto asegura que si cierras la app, recuerde que ya votaste
     this.dbtaskService.actualizarCalificacionViaje(viaje.id, estrellas).then(() => {
       console.log('Calificación guardada en local');
     }).catch(e => console.error('Error guardando en local', e));
 
-    // 3. ENVIAR A LA API (BACKEND)
-    // Buscamos al conductor por nombre para obtener su ID y actualizar su promedio
     this.apiService.getConductores().subscribe({
       next: (conductores) => {
         const conductorEncontrado = conductores.find(c => c.nombre === viaje.conductor);
@@ -102,7 +95,6 @@ export class ViajesPage implements OnInit {
       error: (err) => console.error('No se pudo conectar con la API para calificar', err)
     });
 
-    // 4. ANIMACIÓN Y RESET
     const tiempoBaseMs = 500;
     const tiempoAdicionalPorEstrellaMs = 1000;
     const duracionTotal = tiempoBaseMs + (estrellas * tiempoAdicionalPorEstrellaMs);

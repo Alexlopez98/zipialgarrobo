@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonToolbar, IonButtons, IonMenuButton, IonCard, IonCardContent,
   IonItem, IonLabel, IonSelect, IonSelectOption, IonList, IonAvatar, IonIcon,
-  IonButton, IonSpinner, IonText, ViewWillEnter
+  IonButton, IonSpinner, ViewWillEnter
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { LoaderOverlayComponent } from '../../shared/loader-overlay/loader-overlay.component';
@@ -22,7 +22,7 @@ import * as L from 'leaflet';
   imports: [
     CommonModule, FormsModule, IonContent, IonToolbar, IonButtons, IonMenuButton,
     IonCard, IonCardContent, IonItem, IonLabel, IonSelect, IonSelectOption,
-    IonList, IonAvatar, IonIcon, IonButton, IonSpinner, IonText,
+    IonList, IonAvatar, IonIcon, IonButton, IonSpinner,
     LoaderOverlayComponent, LottieComponent,
   ],
   templateUrl: './home.page.html',
@@ -56,21 +56,17 @@ export class HomePage implements OnInit, ViewWillEnter {
   }
 
   async ngOnInit() {
-    // 1. CORRECCIÓN ICONOS: Arreglamos los iconos antes de cargar nada
     this.fixLeafletIcons();
 
-    // 2. Ubicación
     await this.obtenerUbicacion();
   }
 
   async ionViewWillEnter() {
-    // Actualizar nombre de usuario
     const usuarioActivo = await this.dbtaskService.obtenerUsuarioActivo();
     if (usuarioActivo) {
       this.usuario = usuarioActivo;
     }
 
-    // Actualizar lista de conductores (por si se registró uno nuevo)
     this.cargarConductores();
   }
 
@@ -103,7 +99,6 @@ export class HomePage implements OnInit, ViewWillEnter {
     }, 500);
   }
 
-  // FUNCIÓN PARA ARREGLAR LOS ICONOS ROTOS DE LEAFLET
   fixLeafletIcons() {
     const iconDefault = L.icon({
       iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -125,7 +120,6 @@ export class HomePage implements OnInit, ViewWillEnter {
       },
       error: (err) => {
         console.error('Error API:', err);
-        // Si falla la API, mostramos lista vacía o de error
         this.listaConductores = [];
       }
     });

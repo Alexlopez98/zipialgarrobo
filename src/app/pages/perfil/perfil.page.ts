@@ -104,7 +104,6 @@ export class PerfilPage implements OnInit {
   }
 
   async guardarCambios() {
-    // Validar si hay contraseña escrita y si cumple el formato
     if (this.password) {
       const passRegex = /^[0-9]{4}$/;
       if (!passRegex.test(this.password)) {
@@ -112,8 +111,6 @@ export class PerfilPage implements OnInit {
         return;
       }
 
-      // --- AQUÍ ESTÁ EL CAMBIO PRINCIPAL ---
-      // Actualizamos la contraseña también en la Base de Datos SQL para el Login
       try {
         await this.dbtaskService.actualizarPassword(this.usuario, this.password);
       } catch (error) {
@@ -124,7 +121,6 @@ export class PerfilPage implements OnInit {
     this.showLoader = true;
     this.showSuccessMessage = false;
 
-    // Guardamos datos del perfil (foto, nombre, etc.) en Storage Local
     const datosPerfil = {
       nombre: this.nombre,
       correo: this.correo,

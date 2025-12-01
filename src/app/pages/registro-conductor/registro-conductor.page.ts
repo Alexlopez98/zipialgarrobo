@@ -9,7 +9,7 @@ import { addIcons } from 'ionicons';
 import { carSportOutline, personOutline, idCardOutline, arrowBackOutline, star, timeOutline, checkmarkCircle } from 'ionicons/icons';
 import { Chart, registerables } from 'chart.js';
 
-// Registramos los componentes de Chart.js
+
 Chart.register(...registerables);
 
 @Component({
@@ -24,13 +24,11 @@ export class RegistroConductorPage implements ViewWillEnter {
   @ViewChild('barCanvas') private barCanvas: ElementRef | undefined;
   barChart: any;
 
-  esConductor: boolean = false; // Controla qué pantalla se ve
+  esConductor: boolean = false; 
   cargando: boolean = true;
   
-  // Datos del conductor existente
   miPerfil: any = null;
 
-  // Datos para el formulario (si no es conductor)
   conductor = {
     nombre: '',
     vehiculo: '',
@@ -67,26 +65,23 @@ export class RegistroConductorPage implements ViewWillEnter {
   verificarSiEsConductor(usuario: string) {
     this.apiService.getConductorPorUsuario(usuario).subscribe({
       next: (data) => {
-        // ¡SÍ ES CONDUCTOR! Mostramos el Dashboard
         this.esConductor = true;
         this.miPerfil = data;
         this.cargando = false;
         
-        // Esperamos un poco a que el HTML renderice el Canvas para dibujar el gráfico
         setTimeout(() => this.crearGrafico(), 100);
       },
       error: () => {
-        // NO ES CONDUCTOR (404) -> Mostramos formulario
         this.esConductor = false;
         this.cargando = false;
-        this.conductor.propietario = usuario; // Preparamos el usuario para registrar
+        this.conductor.propietario = usuario; 
       }
     });
   }
 
   crearGrafico() {
     if (this.barChart) {
-      this.barChart.destroy(); // Limpiamos si ya existía
+      this.barChart.destroy(); 
     }
 
     if(this.barCanvas) {
@@ -98,8 +93,8 @@ export class RegistroConductorPage implements ViewWillEnter {
             label: 'Mis Estadísticas',
             data: [this.miPerfil.cantidad_votos, this.miPerfil.calificacion],
             backgroundColor: [
-              'rgba(54, 162, 235, 0.6)', // Azul
-              'rgba(255, 206, 86, 0.6)'  // Amarillo
+              'rgba(54, 162, 235, 0.6)', 
+              'rgba(255, 206, 86, 0.6)'  
             ],
             borderColor: [
               'rgba(54, 162, 235, 1)',
@@ -120,7 +115,6 @@ export class RegistroConductorPage implements ViewWillEnter {
   }
 
   registrar() {
-    // ... (Tu misma lógica de registro anterior) ...
     this.cargando = true;
     this.apiService.agregarConductor(this.conductor).subscribe({
       next: async (res) => {
@@ -129,11 +123,9 @@ export class RegistroConductorPage implements ViewWillEnter {
           duration: 2000, color: 'success'
         });
         await toast.present();
-        // Recargamos la vista para que ahora salga el perfil
         this.ionViewWillEnter(); 
       },
       error: async (err) => {
-        // ... manejo de error ...
         this.cargando = false;
       }
     });
