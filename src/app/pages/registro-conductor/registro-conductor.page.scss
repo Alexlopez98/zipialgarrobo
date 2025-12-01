@@ -2,28 +2,37 @@
   --background: #f4f6f9;
 }
 
+/* HEADER RESPONSIVO */
 .header-logo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  /* Margen superior dinámico: en móviles lo separamos un poco */
+  margin-top: 40px; 
   margin-bottom: 25px;
 
   .logo-circle {
     background: white;
-    width: 80px;
-    height: 80px;
+    /* HACEMOS EL CÍRCULO UN POCO MÁS GRANDE */
+    width: 120px; 
+    height: 120px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin-bottom: 10px;
-    img { width: 50px; }
+    margin-bottom: 15px;
+    
+    img { 
+      /* El logo ocupa un 60% del círculo, adaptándose siempre */
+      width: 85%; 
+      height: auto;
+      object-fit: contain;
+    }
   }
 
-  h2 { color: #073166; font-weight: 700; margin: 0; font-size: 1.4rem; }
-  p { color: #666; font-size: 0.9rem; margin-top: 5px; }
+  h2 { color: #073166; font-weight: 700; margin: 0; font-size: 1.5rem; text-align: center;}
+  p { color: #666; font-size: 1rem; margin-top: 5px; text-align: center;}
 }
 
 .form-card {
@@ -70,7 +79,7 @@
   height: 50px;
 }
 
-
+/* DASHBOARD STYLES */
 .stats-card {
   margin-top: 20px;
   background: white;
@@ -94,4 +103,26 @@
 
 .chart-card {
   margin-top: 15px; border-radius: 15px; background: white;
+}
+
+/* --- MEDIA QUERIES (Para que crezca en pantallas grandes) --- */
+@media (min-width: 768px) {
+  
+  .header-logo {
+    margin-top: 60px; /* Más espacio arriba */
+    
+    .logo-circle {
+      /* Círculo más grande en PC */
+      width: 150px; 
+      height: 150px;
+    }
+
+    h2 { font-size: 2rem; }
+  }
+
+  /* Centramos el formulario en pantallas anchas */
+  .form-card, .dashboard-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
 }

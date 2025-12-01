@@ -10,7 +10,7 @@ export class ApiConductoresService {
   // - Para Emulador Android: 'http://10.0.2.2:8000/conductores'
   // - Para Web (ionic serve): 'http://127.0.0.1:8000/conductores'
   // - Para Celular Físico: 'http://TU_IP_PC:8000/conductores'
-  private apiUrl = 'http://127.0.0.1:8000/conductores'; 
+  private apiUrl = 'http://10.0.2.2:8000/conductores'; 
 
   constructor(private http: HttpClient) { }
 
