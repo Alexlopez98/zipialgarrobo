@@ -10,13 +10,12 @@ import { Storage } from '@ionic/storage-angular';
 export class DbtaskService {
   public database!: SQLiteObject;
   
+  // Observable para saber si la BD está lista
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private isWeb: boolean = false;
   
-  // Tabla de Usuarios (Contraseña como TEXTO)
+  // Tablas
   private tablaSesion: string = "CREATE TABLE IF NOT EXISTS sesion_data (user_name TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, active INTEGER NOT NULL);";
-  
-  // Tabla de Viajes (CON COLUMNAS DE CALIFICACIÓN)
   private tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT NOT NULL, destino TEXT NOT NULL, fecha TEXT NOT NULL, costo INTEGER NOT NULL, estado TEXT NOT NULL, conductor TEXT, calificacion INTEGER DEFAULT 0, calificado INTEGER DEFAULT 0);";
 
   constructor(
@@ -63,7 +62,7 @@ export class DbtaskService {
     }
   }
 
-  // --- GESTIÓN DE USUARIOS ---
+  // --- GESTIÓN DE USUARIOS Y SESIÓN ---
 
   async validarUsuario(user: string, pass: string) {
     if (this.isWeb) {
@@ -97,6 +96,20 @@ export class DbtaskService {
       return Promise.resolve();
     }
     return this.database.executeSql('UPDATE sesion_data SET active = ? WHERE user_name = ?', [active, user]);
+  }
+
+  // >>> FUNCIÓN NUEVA: CERRAR SESIÓN <<<
+  // Esta función busca quién está activo y lo desactiva automáticamente
+  async cerrarSesion() {
+    try {
+      const usuarioActual = await this.obtenerUsuarioActivo();
+      if (usuarioActual) {
+        await this.actualizarSesion(usuarioActual, 0);
+      }
+    } catch (error) {
+      console.error("Error en servicio cerrando sesión", error);
+      throw error; 
+    }
   }
 
   async actualizarPassword(user: string, newPass: string) {

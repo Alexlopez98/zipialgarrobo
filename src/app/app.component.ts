@@ -18,7 +18,8 @@ import {
 import { LottieComponent } from 'ngx-lottie';
 import { addIcons } from 'ionicons';
 import { mapOutline, albumsOutline, personCircleOutline, homeOutline, carOutline, logOutOutline } from 'ionicons/icons';
-import { DbtaskService } from './services/dbtask';
+// Asegúrate de que la ruta sea correcta. A veces es .service
+import { DbtaskService } from './services/dbtask'; 
 
 @Component({
   selector: 'app-root',
@@ -65,24 +66,27 @@ export class AppComponent {
   }
 
   async logout() {
+    // 1. Mostrar la animación y cerrar menú visualmente
     this.showLogoutOverlay = true;
-    this.cdr.detectChanges(); 
-    
+    this.cdr.detectChanges(); // Forzar actualización de vista para que salga el overlay
     await this.menu.close();
 
+    // 2. Ejecutar la lógica de Base de Datos
     try {
-      const usuario = await this.dbtaskService.obtenerUsuarioActivo();
-      if (usuario) {
-        await this.dbtaskService.actualizarSesion(usuario, 0);
-      }
+      // Usamos la nueva función centralizada en el servicio
+      await this.dbtaskService.cerrarSesion();
+      console.log('Sesión cerrada correctamente en BD');
     } catch (error) {
       console.error('Error al cerrar sesión en BD:', error);
+      // Aun si falla la BD, debemos permitir salir al usuario visualmente
     }
 
+    // 3. Esperar a que termine la animación (2.5 segundos) y navegar
     setTimeout(() => {
       this.showLogoutOverlay = false;
       this.cdr.detectChanges();
-      this.navCtrl.navigateRoot('/login');
+      // Usamos navigateRoot para resetear la pila de navegación
+      this.navCtrl.navigateRoot('/login'); 
     }, 2500); 
   }
 }

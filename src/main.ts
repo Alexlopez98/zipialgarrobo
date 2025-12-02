@@ -49,16 +49,12 @@ bootstrapApplication(AppComponent, {
       player: () => player,
     }),
 
-    // --- CORRECCIÓN BASE DE DATOS ---
-    // Usamos importProvidersFrom para inicializar el módulo correctamente
     importProvidersFrom(
       IonicStorageModule.forRoot({
         name: '__zipiDB',
-        // IMPORTANTE: Drivers.SQLite debe ir PRIMERO para usar la BD nativa del celular
         driverOrder: ['sqlite', Drivers.IndexedDB, Drivers.LocalStorage]
       })
     ),
-    // Proveedor para el plugin nativo (necesario para que Drivers.SQLite funcione por debajo)
     SQLite 
   ],
 });
