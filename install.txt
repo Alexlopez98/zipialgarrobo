@@ -1,63 +1,54 @@
-================================================================
-GUÍA DE INSTALACIÓN Y EJECUCIÓN - ZIPI ALGARROBO
-================================================================
+================================================================ GUÍA DE INSTALACIÓN Y EJECUCIÓN - ZIPI ALGARROBO
+PASO 1: INSTALAR DEPENDENCIAS Si es la primera vez que descargas el proyecto:
 
-PASO 1: INSTALAR DEPENDENCIAS
-Si es la primera vez que descargas el proyecto:
+Abre una terminal en la carpeta del proyecto:    zipialgarrobo/
 
-1. Abre una terminal en la carpeta del proyecto:
-   zipialgarrobo/
+Ejecuta el comando para descargar las librerías:    npm install
 
-2. Ejecuta el comando para descargar las librerías:
-   npm install
+PASO 2: CONECTAR LA API (BACKEND) Antes de abrir la app, asegúrate de que tu servidor Python esté corriendo. (De lo contrario, no podrás iniciar sesión ni ver conductores).
 
-----------------------------------------------------------------
-
-PASO 2: CONECTAR LA API (BACKEND)
-Antes de abrir la app, asegúrate de que tu servidor Python esté corriendo.
-(De lo contrario, no podrás iniciar sesión ni ver conductores).
-
-> En otra terminal, ve a la carpeta de tu API y ejecuta:
-  uvicorn backend_zipi.main:app --reload --host 0.0.0.0 --port 8000
-
-----------------------------------------------------------------
+En otra terminal, ve a la carpeta de tu API y ejecuta:   uvicorn backend_zipi.main:app --reload --host 0.0.0.0 --port 8000
 
 PASO 3: EJECUTAR LA APP (Elige una opción)
 
-OPCIÓN A: EJECUTAR EN ANDROID (Recomendado)
-Esta es la única forma de probar la Base de Datos nativa (SQLite),
-la geolocalización real y la cámara en el emulador.
+OPCIÓN A: EJECUTAR EN ANDROID (Recomendado) Esta es la única forma de probar la Base de Datos nativa (SQLite), la geolocalización real y la cámara en el emulador.
 
-1. Construye el proyecto web:
-   ionic build
+Construye el proyecto web:    ionic build
 
-2. Sincroniza con la carpeta nativa Android:
-   npx cap sync
+Sincroniza con la carpeta nativa Android:    npx cap sync
 
-3. Abre Android Studio:
-   npx cap open android
+Abre Android Studio:    npx cap open android
 
-4. Dentro de Android Studio, presiona el botón "Play" (Run)
-   y selecciona tu emulador.
+Dentro de Android Studio, presiona el botón "Play" (Run)    y selecciona tu emulador.
 
----
+OPCIÓN B: EJECUTAR EN NAVEGADOR WEB Útil para probar diseño visual (CSS/HTML) rápidamente. Nota: La base de datos usará almacenamiento temporal del navegador, no el SQLite nativo del celular.
 
-OPCIÓN B: EJECUTAR EN NAVEGADOR WEB
-Útil para probar diseño visual (CSS/HTML) rápidamente.
-Nota: La base de datos usará almacenamiento temporal del navegador,
-no el SQLite nativo del celular.
+Ejecuta:    ionic serve
 
-1. Ejecuta:
-   ionic serve
+Se abrirá automáticamente en: http://localhost:8100
 
-2. Se abrirá automáticamente en: http://localhost:8100
+PASO 4: EJECUTAR PRUEBAS (TESTS)
 
-================================================================
-NOTAS IMPORTANTES:
-- Login: Usa un usuario registrado en la base de datos o crea uno nuevo.
-- Mapas: Usamos Leaflet (OpenStreetMap).
-- IP API: 
-    * En Android Emulator, la app busca en: http://10.0.2.2:8000
-    * En Web, la app busca en: http://127.0.0.1:8000
-    * (Asegúrate de tener configurado 'api-conductores.service.ts' según corresponda).
-================================================================
+OPCIÓN A: PRUEBAS UNITARIAS (Karma/Jasmine) Estas pruebas verifican la lógica individual de los servicios y componentes (archivos .spec.ts).
+
+Asegúrate de que no haya otros tests abiertos y ejecuta en la terminal: npm run test
+
+Se abrirá una ventana de Chrome donde se ejecutarán los tests. Los resultados se mostrarán en la terminal.
+
+OPCIÓN B: PRUEBAS END-TO-END (E2E) con Cypress Estas pruebas simulan el flujo de usuario real (Login, Registro, Navegación) en el navegador.
+
+PRE-REQUISITO VITAL: Debes tener la aplicación web corriendo antes de ejecutar las pruebas E2E. Abre una terminal y ejecuta: ionic serve
+
+Una vez que la aplicación esté corriendo en http://localhost:8100, abre otra terminal y sigue los pasos:
+
+Ejecuta el comando para abrir la interfaz de Cypress: npx cypress open
+
+En la interfaz de Cypress, selecciona "E2E Testing" y luego haz clic en el archivo que deseas ejecutar (e.g., login.cy.ts, registro.cy.ts).
+
+================================================================ NOTAS IMPORTANTES:
+
+Login: Usa un usuario registrado en la base de datos o crea uno nuevo.
+
+Mapas: Usamos Leaflet (OpenStreetMap).
+
+IP API:      * En Android Emulator, la app busca en: http://10.0.2.2:8000     * En Web, la app busca en: http://127.0.0.1:8000     * (Asegúrate de tener configurado 'api-conductores.service.ts' según corresponda). ================================================================
